@@ -1,0 +1,19 @@
+.navigation {
+    grid-area: nav;
+    background-color: blue;
+}
+
+.navigation__link {
+    color: rgb(255, 252, 251);
+    text-decoration: none; 
+    font: 600 24px Arial, Helvetica, sans-serif;
+}
+
+.navigation__link:hover {
+    color: rgb(245, 49, 0);
+}
+
+.navigation__item {
+    margin: 10px 0 20px 20px;
+}
+
