@@ -1,5 +1,8 @@
-
+.search {
+  text-align: center;
+}
 
 .search__request {
   background: rgb(215, 229, 245);
+  width: 50%;
 }

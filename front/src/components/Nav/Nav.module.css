@@ -10,6 +10,10 @@
 }
 
 .navigation__link:hover {
+    color: rgb(37, 23, 20);
+}
+
+.navigation__link.active {
     color: rgb(245, 49, 0);
 }
 

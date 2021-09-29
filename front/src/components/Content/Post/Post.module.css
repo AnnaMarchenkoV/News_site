@@ -1,0 +1,13 @@
+.post {
+    display: flex;
+    background: rgb(99, 160, 240);
+    margin: 30px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.post__avatar {
+    width: 100px;
+    margin-right: 10px;
+}
+
