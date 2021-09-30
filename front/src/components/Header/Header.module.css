@@ -1,7 +1,13 @@
 .header {
-    background: rgb(175, 202, 243);
-    grid-area: header;
+  display: flex;
+  justify-content: space-between;
+  background: rgb(175, 202, 243);
+  grid-area: header;
+  padding: 35px;
   }
+
   .header__img {
     width: 200px;
   }
+
+
