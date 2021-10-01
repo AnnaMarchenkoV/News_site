@@ -17,7 +17,7 @@ function App(props) {
         <div className="app-wrapper">
           <Header />
           <Nav />
-          <Route path='/content' render={()=> <Content postData={props.postData} />} />
+          <Route path='/content' render={()=> <Content />} />
           <Route path='/profile' render={()=> <Profile />} />
         </div>
     </Router>
