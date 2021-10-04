@@ -1,23 +1,21 @@
 .navigation {
     grid-area: nav;
     background-color: blue;
-}
+  }
 
-.navigation__link {
-    color: rgb(255, 252, 251);
-    text-decoration: none; 
-    font: 600 24px Arial, Helvetica, sans-serif;
-}
-
-.navigation__link:hover {
+.navigation__item:hover {
     color: rgb(37, 23, 20);
 }
 
-.navigation__link.active {
+.navigation__item.active {
     color: rgb(245, 49, 0);
 }
 
 .navigation__item {
+    color: aliceblue;
     margin: 10px 0 20px 20px;
+    text-decoration: none; 
+    font: 600 24px Arial, Helvetica, sans-serif;
+    display: block;
 }
 

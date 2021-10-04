@@ -1,28 +1,27 @@
-import { takeLatest, call, put } from "redux-saga/effects";
-import axios from "axios";
+import { takeLatest, call, put } from 'redux-saga/effects';
+import axios from 'axios';
 
 export function* watcherUserSaga() {
-  yield takeLatest("REQUESTED_TOKEN", workerSaga);
+  // eslint-disable-next-line no-use-before-define
+  yield takeLatest('REQUESTED_TOKEN', workerSaga);
 }
 
-function userLogin(payload) {
-    console.log('       112121=========>>>>>>> ', payload)
+export function userLogin(payload) {
   return axios({
-    method: "post",
-    url: "http://localhost:3000/users/sign_in",
-    data: {user: payload.data}
+    method: 'post',
+    url: 'https://jsonplaceholder.typicode.com/users',
+    data: { user: payload.data },
   });
 }
 
+let token;
 
 function* workerSaga({ payload }) {
   try {
     const response = yield call(userLogin, payload);
-    const token = {};
-    console.log('--->>>>>', response.headers);
-    yield put({ type: "API_CALL_SUCCESS", token });
-  
+    token = response.headers.authorization;
+    yield put({ type: 'API_CALL_SUCCESS', token });
   } catch (error) {
-    yield put({ type: "API_CALL_FAILURE", error });
+    yield put({ type: 'API_CALL_FAILURE', error });
   }
 }
