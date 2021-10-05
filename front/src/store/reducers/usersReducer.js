@@ -1,4 +1,4 @@
-import { API_CALL_REQUEST, API_CALL_SUCCESS, API_CALL_FAILURE } from './actions';
+import { API_CALL_SUCCESS, API_CALL_FAILURE, API_CALL_REQUEST } from '../actions/actions';
 
 const initialState = {
   fetching: false,
