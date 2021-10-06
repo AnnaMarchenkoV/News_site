@@ -1,7 +1,7 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import Api from '../../api';
 
-import { API_CALL_SUCCESS, API_CALL_FAILURE, REQUESTED_TOKEN } from '../actions/actions';
+import { RECEIVED_TOKEN, REQUEST_TOKEN_FAILURE, REQUESTED_TOKEN } from '../actions/actions';
 
 export function userLogin(payload) {
   return Api.post('users/sign_in', { user: payload.data });
@@ -11,9 +11,9 @@ function* workerSaga({ payload }) {
   try {
     const response = yield call(userLogin, payload);
     const token = response.headers.authorization;
-    yield put({ type: API_CALL_SUCCESS, token });
+    yield put({ type: RECEIVED_TOKEN, payload: { token } });
   } catch (error) {
-    yield put({ type: API_CALL_FAILURE, error });
+    yield put({ type: REQUEST_TOKEN_FAILURE, error });
   }
 }
 

@@ -1,4 +1,4 @@
-import { API_CALL_SUCCESS, API_CALL_FAILURE, API_CALL_REQUEST } from '../actions/actions';
+import { RECEIVED_TOKEN, REQUEST_TOKEN_FAILURE, REQUESTED_TOKEN } from '../actions/actions';
 
 const initialState = {
   fetching: false,
@@ -6,13 +6,13 @@ const initialState = {
   error: null,
 };
 
-export default function reducer(state = initialState, action) {
+export default function userReducer(state = initialState, action) {
   switch (action.type) {
-    case API_CALL_REQUEST:
-      return { ...state, fetching: action.fetching };
-    case API_CALL_SUCCESS:
-      return { ...state, fetching: false, token: action.token };
-    case API_CALL_FAILURE:
+    case REQUESTED_TOKEN:
+      return { ...state, fetching: true };
+    case RECEIVED_TOKEN:
+      return { ...state, fetching: false, token: action.payload };
+    case REQUEST_TOKEN_FAILURE:
       return {
         ...state, fetching: false, token: null, error: action.error,
       };

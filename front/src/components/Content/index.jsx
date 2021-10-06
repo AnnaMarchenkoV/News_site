@@ -1,12 +1,12 @@
 import React from 'react';
 
-import FetchedPost from './FetchedPost/index.jsx';
-import SearchForm from './SearchForm/index.jsx';
+import FetchedPost from './FetchedPost/index';
+import SearchForm from './SearchForm/index';
 
-import classes from './Content.module.css';
+import './content.css';
 
 const Content = () => (
-  <main className={classes.content}>
+  <main className="content">
     <SearchForm />
     <FetchedPost />
   </main>

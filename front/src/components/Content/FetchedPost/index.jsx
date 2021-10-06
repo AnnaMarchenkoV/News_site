@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Post from './Post/index.jsx';
+import Post from './Post/index';
 import { fetchPosts } from '../../../store/actions/actions';
 
 const Posts = () => {
@@ -10,8 +10,8 @@ const Posts = () => {
     dispatch(fetchPosts());
   }, [dispatch]);
   const posts = useSelector((state) => state.posts.fetchedPosts);
-  return posts?.map((p) => (
-    <Post b={p.body} t={p.title} tg={p.tags} u={p.user_id} key={p.id} />
+  return posts?.map((post) => (
+    <Post post={post} />
   ));
 };
 

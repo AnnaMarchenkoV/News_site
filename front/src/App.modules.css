@@ -1,8 +1,4 @@
-.App {
-  text-align: center;
-}
-
-.app-wrapper {
+.app_wrapper {
   display: grid;
   grid-template-rows: 1fr 5fr;
   grid-template-columns: 1fr 5fr;

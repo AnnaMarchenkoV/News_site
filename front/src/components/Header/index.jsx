@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Authorization from './Authorization/index.jsx';
+import Authorization from './Authorization';
 
 import classes from './Header.module.css';
 
