@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Post from './Post/index';
+import Post from './Post/index.jsx';
 import { fetchPosts } from '../../../store/actions/actions';
 
 const Posts = () => {

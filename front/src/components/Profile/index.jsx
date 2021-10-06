@@ -1,7 +1,7 @@
 import React from 'react';
 
-import NewPost from './NewPost/index';
-import ProfileInfo from './ProfileInfo/index';
+import NewPost from './NewPost/index.jsx';
+import ProfileInfo from './ProfileInfo/index.jsx';
 
 const Profile = () => (
   <div>

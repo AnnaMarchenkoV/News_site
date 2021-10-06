@@ -1,7 +1,7 @@
 import React from 'react';
 
-import FetchedPost from './FetchedPost/index';
-import SearchForm from './SearchForm/index';
+import FetchedPost from './FetchedPost/index.jsx';
+import SearchForm from './SearchForm/index.jsx';
 
 import classes from './Content.module.css';
 
