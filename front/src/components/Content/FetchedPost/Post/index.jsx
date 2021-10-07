@@ -15,7 +15,7 @@ Post.propTypes = {
     title: PropTypes.string.isRequired,
     body: PropTypes.string.isRequired,
     tags: PropTypes.string.isRequired,
-    user_id: PropTypes.string.isRequired,
+    user_id: PropTypes.number.isRequired,
   }).isRequired,
 };
 
