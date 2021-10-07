@@ -11,10 +11,10 @@ export default function postsReducer(state = initialState, action) {
     case REQUEST_POSTS:
       return { ...state, fetching: true };
     case FETCH_POSTS:
-      return { ...state, fetchedPosts: action.payload };
+      return { ...state, fetchedPosts: action.payload, fetching: false };
     case FETCH_POST_FAILURE:
       return {
-        ...state, fetchedPosts: action.payload, error: action.error,
+        ...state, fetchedPosts: action.payload, error: action.error, fetching: false,
       };
     default: return state;
   }
