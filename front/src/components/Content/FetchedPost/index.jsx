@@ -15,23 +15,26 @@ const Posts = () => {
   const {
     fetchedPosts,
     error,
-    // eslint-disable-next-line no-unused-vars
     fetching,
   } = useSelector((state) => state.posts);
-  if (error) {
-    const variant = 'danger';
+  if (fetching) {
     return (
-      <Alert variant={variant}>
-        Error
+      <Spinner animation="border" />
+    );
+  }
+  if (error) {
+    let message;
+    if (process.env.NODE_ENV !== 'production') message = error.message;
+    else message = 'Loading error';
+    return (
+      <Alert variant="danger">
+        {message}
       </Alert>
     );
   }
-  if (fetchedPosts) {
-    return fetchedPosts.map((post) => (
-      <Post post={post} />
-    ));
-  }
-  return (<Spinner />);
+  return fetchedPosts.map((post) => (
+    <Post post={post} />
+  ));
 };
 
 export default Posts;
