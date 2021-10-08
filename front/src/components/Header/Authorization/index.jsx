@@ -1,6 +1,8 @@
 import React from 'react';
-import { Form, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+import { Form, Button } from 'react-bootstrap';
+
+import { requestedToken } from '../../../store/actions/userActions';
 
 const Authorization = () => {
   const dispatch = useDispatch();
@@ -14,7 +16,7 @@ const Authorization = () => {
         password: event.target.password.value,
       },
     };
-    dispatch({ type: 'REQUESTED_TOKEN', payload });
+    dispatch(requestedToken(payload));
   };
   return (
     <Form onSubmit={onSubmit}>

@@ -1,14 +1,12 @@
 import React from 'react';
 
-import Post from './Post/index';
-import Search from './SearchForm/index';
+import Posts from './Posts';
 
-import classes from './Content.module.css';
+import './content.css';
 
 const Content = () => (
-  <main className={classes.content}>
-    <Search />
-    <Post />
+  <main className="content">
+    <Posts />
   </main>
 );
 
