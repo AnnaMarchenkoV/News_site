@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 
+import { takeFromLS } from '../../../store/helpers';
 import { requestedToken } from '../../../store/actions/userActions';
 
 const Authorization = () => {
@@ -18,6 +19,15 @@ const Authorization = () => {
     };
     dispatch(requestedToken(payload));
   };
+
+  if (takeFromLS) {
+    return (
+      <Button className="h-25" variant="primary" type="submit">
+        Sign Out
+      </Button>
+    );
+  }
+
   return (
     <Form onSubmit={onSubmit}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
