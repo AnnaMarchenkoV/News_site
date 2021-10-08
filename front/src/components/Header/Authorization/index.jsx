@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
 
 import { takeFromLS } from '../../../store/helpers';
-import { requestedToken } from '../../../store/actions/userActions';
+import { requestedToken, userRegistrationRequest } from '../../../store/actions/userActions';
 
 const Authorization = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,25 @@ const Authorization = () => {
     dispatch(requestedToken(payload));
   };
 
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+
+  const onSubmitReg = (event) => {
+    event.preventDefault();
+
+    const payload = {
+      data: {
+        email: event.target.emailReg.value,
+        login: event.target.loginReg.value,
+        password: event.target.passwordReg.value,
+      },
+    };
+    console.log(payload);
+    dispatch(userRegistrationRequest(payload));
+    handleClose();
+  };
+
   if (takeFromLS) {
     return (
       <Button className="h-25" variant="primary" type="submit">
@@ -29,23 +49,54 @@ const Authorization = () => {
   }
 
   return (
-    <Form onSubmit={onSubmit}>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" name="email" />
-      </Form.Group>
+    <div>
+      <Form onSubmit={onSubmit}>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control type="email" placeholder="Enter email" name="email" />
+        </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" name="password" />
-      </Form.Group>
-      <Button className="m-3" variant="primary" type="submit">
-        Log In
-      </Button>
-      <Button variant="primary" type="submit">
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control type="password" placeholder="Password" name="password" />
+        </Form.Group>
+        <Button className="mb-3" variant="primary" type="submit">
+          Log In
+        </Button>
+      </Form>
+      <Button variant="primary" onClick={handleShow}>
         Sign Up
       </Button>
-    </Form>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Registration</Modal.Title>
+        </Modal.Header>
+
+        <Form.Group className="m-3">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control type="email" placeholder="Enter email" name="emailReg" />
+        </Form.Group>
+
+        <Form.Group className="m-3">
+          <Form.Label>Login</Form.Label>
+          <Form.Control type="text" placeholder="Login" name="loginReg" />
+        </Form.Group>
+
+        <Form.Group className="m-3">
+          <Form.Label>Password</Form.Label>
+          <Form.Control type="password" placeholder="Password" name="passwordReg" />
+        </Form.Group>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={onSubmitReg}>
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
   );
 };
 
