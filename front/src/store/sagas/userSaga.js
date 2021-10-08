@@ -1,7 +1,7 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import Api from '../../api';
 
-import { RECEIVED_TOKEN, REQUEST_TOKEN_FAILURE, REQUESTED_TOKEN } from '../actions/actions';
+import { RECEIVED_TOKEN, REQUEST_TOKEN_FAILURE, REQUESTED_TOKEN } from '../actions/userActions';
 
 export function userLogin(payload) {
   return Api.post('users/sign_in', { user: payload.data });

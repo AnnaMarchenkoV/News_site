@@ -1,9 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-
 import { Form, Button } from 'react-bootstrap';
 
-import { requestedToken } from '../../../store/actions/actions';
+import { requestedToken } from '../../../store/actions/userActions';
 
 const Authorization = () => {
   const dispatch = useDispatch();

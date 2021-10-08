@@ -1,4 +1,4 @@
-import { RECEIVED_TOKEN, REQUEST_TOKEN_FAILURE, REQUESTED_TOKEN } from '../actions/actions';
+import { REQUEST_TOKEN_FAILURE, REQUESTED_TOKEN, RECEIVED_TOKEN } from '../actions/userActions';
 
 const initialState = {
   fetching: false,
@@ -14,7 +14,10 @@ export default function userReducer(state = initialState, action) {
       return { ...state, fetching: false, token: action.payload };
     case REQUEST_TOKEN_FAILURE:
       return {
-        ...state, fetching: false, token: null, error: action.error,
+        ...state,
+        fetching: false,
+        token: null,
+        error: action.error,
       };
     default:
       return state;
