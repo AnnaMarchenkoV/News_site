@@ -1,12 +1,12 @@
 import React from 'react';
 
-import Items from './Items/index';
+import Posts from './Posts';
 
 import './content.css';
 
 const Content = () => (
   <main className="content">
-    <Items />
+    <Posts />
   </main>
 );
 

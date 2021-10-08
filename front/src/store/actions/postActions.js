@@ -5,3 +5,5 @@ export const FETCH_POST_FAILURE = 'POST/FETCH_POST_FAILURE';
 export const REQUEST_POSTS = 'POST/REQUEST_POSTS';
 
 export const fetchPosts = createAction(REQUEST_POSTS);
+export const fetchedPosts = createAction(FETCH_POSTS);
+export const fetchedPostsFail = createAction(FETCH_POST_FAILURE);

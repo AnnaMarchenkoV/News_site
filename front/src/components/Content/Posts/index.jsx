@@ -6,7 +6,7 @@ import Alert from 'react-bootstrap/Alert';
 import Post from './Post/index';
 import { fetchPosts } from '../../../store/actions/postActions';
 
-const Items = () => {
+const Posts = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,4 +29,4 @@ const Items = () => {
   return items?.map((post) => <Post post={post} key={post.id} />);
 };
 
-export default Items;
+export default Posts;

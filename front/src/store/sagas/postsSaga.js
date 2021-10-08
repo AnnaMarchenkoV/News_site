@@ -1,5 +1,8 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
-import { FETCH_POSTS, FETCH_POST_FAILURE, REQUEST_POSTS } from '../actions/postActions';
+
+import {
+  fetchedPostsFail, REQUEST_POSTS, fetchedPosts,
+} from '../actions/postActions';
 import Api from '../../api';
 
 export function fetchPosts() {
@@ -10,9 +13,9 @@ function* workerSaga() {
   try {
     const response = yield call(fetchPosts);
     const payload = response.data;
-    yield put({ type: FETCH_POSTS, payload });
+    yield put(fetchedPosts(payload));
   } catch (error) {
-    yield put({ type: FETCH_POST_FAILURE, error });
+    yield put(fetchedPostsFail(error));
   }
 }
 
