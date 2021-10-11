@@ -4,7 +4,10 @@ import { Form, Button } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 
 import { takeFromLS } from '../../../store/helpers';
-import { requestedToken, userRegistrationRequest } from '../../../store/actions/userActions';
+import {
+  requestedToken,
+  userRegistrationRequest,
+} from '../../../store/actions/userActions';
 
 const Authorization = () => {
   const dispatch = useDispatch();
@@ -31,11 +34,10 @@ const Authorization = () => {
     const payload = {
       data: {
         email: event.target.emailReg.value,
-        login: event.target.loginReg.value,
+        // login: event.target.loginReg.value,
         password: event.target.passwordReg.value,
       },
     };
-    console.log(payload);
     dispatch(userRegistrationRequest(payload));
     handleClose();
   };
@@ -58,7 +60,11 @@ const Authorization = () => {
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" name="password" />
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            name="password"
+          />
         </Form.Group>
         <Button className="mb-3" variant="primary" type="submit">
           Log In
@@ -67,34 +73,52 @@ const Authorization = () => {
       <Button variant="primary" onClick={handleShow}>
         Sign Up
       </Button>
+
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Registration</Modal.Title>
         </Modal.Header>
 
-        <Form.Group className="m-3">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" name="emailReg" />
-        </Form.Group>
+        <Form onSubmit={onSubmitReg}>
+          <Form.Group className="m-3">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              name="emailReg"
+            />
+          </Form.Group>
 
-        <Form.Group className="m-3">
-          <Form.Label>Login</Form.Label>
-          <Form.Control type="text" placeholder="Login" name="loginReg" />
-        </Form.Group>
+          <Form.Group className="m-3">
+            <Form.Label>Login</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter login"
+              name="loginReg"
+            />
+          </Form.Group>
 
-        <Form.Group className="m-3">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" name="passwordReg" />
-        </Form.Group>
+          <Form.Group className="m-3">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              name="passwordReg"
+            />
+          </Form.Group>
 
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Form.Group className="m-3" controlId="formFileLg">
+            <Form.Label>Avatar</Form.Label>
+            <Form.Control type="file" size="lg" />
+          </Form.Group>
+
+          <Button variant="secondary" onClick={handleClose} className="m-3">
             Close
           </Button>
-          <Button variant="primary" onClick={onSubmitReg}>
+          <Button className="m-3" variant="primary" type="submit">
             Save
           </Button>
-        </Modal.Footer>
+        </Form>
       </Modal>
     </div>
   );

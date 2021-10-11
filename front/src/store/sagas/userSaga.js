@@ -32,15 +32,13 @@ export function userRegistration(payload) {
 
 function* workerRegistration({ payload }) {
   try {
-    const response = yield call(userRegistration, payload);
-    console.log(payload);
-    const token = response.headers.authorization;
-    yield put(receivedToken({ token }));
-    yield addToLS(token);
+    const responseReg = yield call(userRegistration, payload);
+    const tokenReg = responseReg.headers.authorization;
+    yield put(receivedToken({ tokenReg }));
+    yield addToLS(tokenReg);
     yield window.location.reload();
   } catch (error) {
     yield put(requestedTokenFail(error));
-    console.log(error);
   }
 }
 

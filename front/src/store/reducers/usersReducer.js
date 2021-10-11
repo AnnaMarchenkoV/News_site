@@ -1,4 +1,6 @@
-import { REQUEST_TOKEN_FAILURE, RECEIVED_TOKEN, REQUESTED_TOKEN } from '../actions/userActions';
+import {
+  REQUEST_TOKEN_FAILURE, RECEIVED_TOKEN, REQUESTED_TOKEN, USER_REGISTRATION_REQUEST,
+} from '../actions/userActions';
 import { takeFromLS } from '../helpers';
 
 const initialState = {
@@ -20,6 +22,10 @@ export default function userReducer(state = initialState, action) {
         token: null,
         error: action.error,
       };
+
+    case USER_REGISTRATION_REQUEST:
+      return { ...state, fetching: true };
+
     default:
       return state;
   }
