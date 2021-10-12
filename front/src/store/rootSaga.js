@@ -1,5 +1,5 @@
 import { all } from 'redux-saga/effects';
-import { watcherUserSaga, watcherUserReg } from './sagas/userSaga';
+import { watcherUserSaga, watcherUserReg, watcherUserAuth } from './sagas/userSaga';
 import { watcherPostsSaga } from './sagas/postsSaga';
 
 export default function* rootSaga() {
@@ -7,5 +7,6 @@ export default function* rootSaga() {
     watcherUserSaga(),
     watcherPostsSaga(),
     watcherUserReg(),
+    watcherUserAuth(),
   ]);
 }

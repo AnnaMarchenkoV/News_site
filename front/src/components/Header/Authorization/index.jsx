@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import sha256 from 'crypto-js/sha256';
 import { Form, Button } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
+import Alert from 'react-bootstrap/Alert';
 
-import { takeFromLS } from '../../../store/helpers';
 import {
   requestedToken,
   userRegistrationRequest,
@@ -14,11 +15,12 @@ const Authorization = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
+    const pass = event.target.password.value;
 
     const payload = {
       data: {
         email: event.target.email.value,
-        password: event.target.password.value,
+        password: sha256(pass).toString(),
       },
     };
     dispatch(requestedToken(payload));
@@ -30,23 +32,55 @@ const Authorization = () => {
 
   const onSubmitReg = (event) => {
     event.preventDefault();
+    const passReg = event.target.passwordReg.value;
 
     const payload = {
       data: {
         email: event.target.emailReg.value,
-        // login: event.target.loginReg.value,
-        password: event.target.passwordReg.value,
+        password: sha256(passReg).toString(),
+        login: event.target.loginReg.value,
       },
     };
     dispatch(userRegistrationRequest(payload));
     handleClose();
   };
 
-  if (takeFromLS) {
+  const { error, token } = useSelector((state) => state.user);
+
+  if (token) {
     return (
       <Button className="h-25" variant="primary" type="submit">
         Sign Out
       </Button>
+    );
+  }
+
+  if (error) {
+    return (
+      <div>
+        <Form onSubmit={onSubmit}>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control type="email" placeholder="Enter email" name="email" />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              name="password"
+            />
+          </Form.Group>
+          <Button className="mb-3" variant="primary" type="submit">
+            Log In
+          </Button>
+        </Form>
+        <Button variant="primary" onClick={handleShow}>
+          Sign Up
+        </Button>
+        <Alert variant="danger">{error.message}</Alert>
+      </div>
     );
   }
 

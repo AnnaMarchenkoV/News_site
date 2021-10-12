@@ -1,20 +1,16 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-
-import { takeFromLS } from '../../store/helpers';
 
 import classes from './Nav.module.css';
 
-let menuItems = [
-  { title: 'Newsfeeds', path: '/content' },
-];
-
 const Nav = () => {
-  if (takeFromLS) {
-    menuItems = [
-      { title: 'My profile', path: '/profile' },
-      { title: 'Newsfeeds', path: '/content' },
-    ];
+  const menuItems1 = { title: 'Newsfeeds', path: '/content' };
+  const menuItems2 = { title: 'My profile', path: '/profile' };
+  const menuItems = [menuItems1];
+  const { token } = useSelector((state) => state.user);
+  if (token) {
+    menuItems.push(menuItems2);
   }
   return (
     <div className={classes.navigation}>
