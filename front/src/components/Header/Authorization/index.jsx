@@ -8,6 +8,7 @@ import Alert from 'react-bootstrap/Alert';
 import {
   requestedToken,
   userRegistrationRequest,
+  userLogOut,
 } from '../../../store/actions/userActions';
 
 const Authorization = () => {
@@ -45,11 +46,16 @@ const Authorization = () => {
     handleClose();
   };
 
+  const signOut = (event) => {
+    event.preventDefault();
+    dispatch(userLogOut());
+  };
+
   const { error, token } = useSelector((state) => state.user);
 
   if (token) {
     return (
-      <Button className="h-25" variant="primary" type="submit">
+      <Button onClick={signOut} className="h-25" variant="primary" type="submit">
         Sign Out
       </Button>
     );

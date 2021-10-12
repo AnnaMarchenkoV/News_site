@@ -2,7 +2,9 @@ import { takeLatest, call, put } from 'redux-saga/effects';
 import Api from '../../api';
 
 import {
-  receivedToken, requestedTokenFail, REQUESTED_TOKEN, USER_REGISTRATION_REQUEST, USER_AUTHENTICATE,
+  receivedToken, requestedTokenFail, logOutFail, logOutSuccess,
+  REQUESTED_TOKEN, USER_REGISTRATION_REQUEST,
+  USER_AUTHENTICATE, USER_LOG_OUT,
 } from '../actions/userActions';
 import { addToLS } from '../helpers';
 
@@ -16,6 +18,10 @@ export function userRegistration(payload) {
 
 export function userTokenCheck() {
   return Api.get('member-data');
+}
+
+export function destroyUserSession() {
+  return Api.delete('users/sign_out');
 }
 
 function* workerSaga({ payload }) {
@@ -48,6 +54,17 @@ function* workerAuthenticate() {
   }
 }
 
+function* workerUserLogOut() {
+  try {
+    yield call(destroyUserSession);
+    yield put(logOutSuccess());
+  } catch (error) {
+    yield put(logOutFail(error));
+  } finally {
+    yield localStorage.setItem('token', '');
+  }
+}
+
 export function* watcherUserReg() {
   yield takeLatest(USER_REGISTRATION_REQUEST, workerRegistration);
 }
@@ -58,4 +75,8 @@ export function* watcherUserSaga() {
 
 export function* watcherUserAuth() {
   yield takeLatest(USER_AUTHENTICATE, workerAuthenticate);
+}
+
+export function* watcherUserLogOut() {
+  yield takeLatest(USER_LOG_OUT, workerUserLogOut);
 }
