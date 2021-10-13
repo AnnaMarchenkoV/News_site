@@ -2,8 +2,7 @@ import { takeLatest, call, put } from 'redux-saga/effects';
 import Api from '../../api';
 
 import {
-  loginSuccess, loginFail, logOutFail, logOutSuccess,
-  userAuthenticateSuccess,
+  loginSuccess, loginFail, logOutSuccess,
   USER_REQUESTED, USER_REGISTRATION,
   USER_AUTHENTICATE_REQUESTED, USER_LOGOUT_REQUESTED,
 } from '../actions/userActions';
@@ -52,7 +51,7 @@ function* workerAuthenticate() {
   try {
     const response = yield call(userTokenCheck);
     const userData = response.data;
-    yield put(userAuthenticateSuccess(userData));
+    yield put(loginSuccess(userData));
   } catch (error) {
     yield put(loginFail(error));
   }
@@ -63,7 +62,7 @@ function* workerUserLogOut() {
     yield call(destroyUserSession);
     yield put(logOutSuccess());
   } catch (error) {
-    yield put(logOutFail(error));
+    yield put(loginFail(error));
   } finally {
     yield removeTokenFromLS('token');
   }

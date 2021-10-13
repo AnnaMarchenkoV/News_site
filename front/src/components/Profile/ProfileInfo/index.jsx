@@ -6,7 +6,7 @@ const ProfileInfo = () => (
   <div className={classes.profile}>
     <img
       className={classes.profile__img}
-      src="https://yt3.ggpht.com/a/AATXAJwS6Vr-jVeRm2qg29TcfkgiwJtWZOJfXEPQBdtNkw=s900-c-k-c0x00ffffff-no-rj"
+      src=""
       alt=""
     />
     <div>Login</div>

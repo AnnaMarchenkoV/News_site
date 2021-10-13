@@ -14,6 +14,7 @@ const Posts = () => {
   }, [dispatch]);
 
   const { items, error, fetching } = useSelector((state) => state.posts);
+  console.log(items);
 
   if (fetching) {
     return <Spinner animation="border" />;

@@ -2,7 +2,6 @@ import {
   USER_REJECTED, USER_RECEIVED, USER_REQUESTED,
   USER_REGISTRATION, USER_AUTHENTICATE_REQUESTED,
   USER_LOGOUT_REQUESTED, USER_LOGOUT_REJECTED, USER_LOGOUT_RECEIVED,
-  USER_AUTHENTICATE_RECEIVED,
 } from '../actions/userActions';
 
 const initialState = {
@@ -31,11 +30,6 @@ export default function userReducer(state = initialState, action) {
     case USER_AUTHENTICATE_REQUESTED:
       return {
         ...state, fetching: false, error: null,
-      };
-
-    case USER_AUTHENTICATE_RECEIVED:
-      return {
-        ...state, fetching: false, userData: action.payload, error: null,
       };
 
     case USER_LOGOUT_REQUESTED:

@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 
 const Post = memo(({
   post: {
-    title, body, tags, user_id: userId,
+    user: { login },
+    title, body, tags,
   },
 }) => (
   <div className="card">
@@ -14,17 +15,17 @@ const Post = memo(({
     <NavLink
       to="/profile"
     >
-      {userId}
+      { login }
     </NavLink>
   </div>
 ));
 
 Post.propTypes = {
   post: PropTypes.shape({
+    user: PropTypes.shape({ login: PropTypes.string.isRequired }).isRequired,
     title: PropTypes.string.isRequired,
     body: PropTypes.string.isRequired,
     tags: PropTypes.string.isRequired,
-    user_id: PropTypes.number.isRequired,
   }).isRequired,
 };
 
