@@ -14,9 +14,11 @@ import classes from './App.modules.css';
 
 function App() {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(userAuthenticate());
   }, [dispatch]);
+
   return (
     <Router>
       <div className={classes.app_wrapper}>

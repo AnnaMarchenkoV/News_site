@@ -2,19 +2,24 @@ import { takeLatest, call, put } from 'redux-saga/effects';
 import Api from '../../api';
 
 import {
-  loginSuccess, loginFail, logOutFail, logOutSuccess,
+  loginSuccess,
+  loginFail,
+  logOutFail,
+  logOutSuccess,
   userAuthenticateSuccess,
-  USER_REQUESTED, USER_REGISTRATION,
-  USER_AUTHENTICATE_REQUESTED, USER_LOGOUT_REQUESTED,
+  USER_REQUESTED,
+  USER_REGISTRATION,
+  USER_AUTHENTICATE_REQUESTED,
+  USER_LOGOUT_REQUESTED,
 } from '../actions/userActions';
-import { addTokenToLS, removeTokenFromLS } from '../helpers';
+import { addTokenToLS, removeTokenFromLS } from '../helpers/localStorageHelpers';
 
-export function userLogin(action) {
-  return Api.post('users/sign_in', action.payload);
+export function userLogin(payload) {
+  return Api.post('users/sign_in', payload);
 }
 
-export function userRegistration(action) {
-  return Api.post('users', action.payload);
+export function userRegistration(payload) {
+  return Api.post('users', payload);
 }
 
 export function userTokenCheck() {
@@ -27,10 +32,10 @@ export function destroyUserSession() {
 
 function* workerUserLogin(action) {
   try {
-    const response = yield call(userLogin, action);
+    const response = yield call(userLogin, action.payload);
     const token = response.headers.authorization;
     const userData = response.data;
-    yield addTokenToLS(token);
+    addTokenToLS(token);
     yield put(loginSuccess(userData));
   } catch (error) {
     yield put(loginFail(error));
@@ -39,9 +44,9 @@ function* workerUserLogin(action) {
 
 function* workerRegistration(action) {
   try {
-    const response = yield call(userRegistration, action);
+    const response = yield call(userRegistration, action.payload);
     const token = response.headers.authorization;
-    yield put(loginSuccess({ token }));
+    put(loginSuccess({ token }));
     yield addTokenToLS(token);
   } catch (error) {
     yield put(loginFail(error));

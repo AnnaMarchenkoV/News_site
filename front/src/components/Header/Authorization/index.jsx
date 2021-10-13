@@ -26,9 +26,9 @@ const Authorization = () => {
     dispatch(userLogin(payload));
   };
 
-  const [show, setShow] = useState(false);
-  const handleShow = () => setShow(true);
-  const handleClose = () => setShow(false);
+  const [isModalShown, setShownModal] = useState(false);
+  const handleShow = () => setShownModal(true);
+  const handleClose = () => setShownModal(false);
 
   const onSubmitReg = (event) => {
     event.preventDefault();
@@ -84,7 +84,7 @@ const Authorization = () => {
         Sign Up
       </Button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={isModalShown} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Registration</Modal.Title>
         </Modal.Header>
