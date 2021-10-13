@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
 
 import {
-  requestedToken,
+  userLogin,
   userRegistrationRequest,
   userLogOut,
 } from '../../../store/actions/userActions';
@@ -16,15 +16,14 @@ const Authorization = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    const pass = event.target.password.value;
-
+    const dataLogIn = new FormData(event.target);
     const payload = {
-      data: {
-        email: event.target.email.value,
-        password: sha256(pass).toString(),
+      user: {
+        email: dataLogIn.get('email'),
+        password: sha256(dataLogIn.get('password')).toString(),
       },
     };
-    dispatch(requestedToken(payload));
+    dispatch(userLogin(payload));
   };
 
   const [show, setShow] = useState(false);
@@ -33,60 +32,31 @@ const Authorization = () => {
 
   const onSubmitReg = (event) => {
     event.preventDefault();
-    const passReg = event.target.passwordReg.value;
+
+    const dataReg = new FormData(event.target);
 
     const payload = {
-      data: {
-        email: event.target.emailReg.value,
-        password: sha256(passReg).toString(),
-        login: event.target.loginReg.value,
+      user: {
+        email: dataReg.get('emailReg'),
+        password: sha256(dataReg.get('passwordReg')).toString(),
+        login: dataReg.get('loginReg'),
       },
     };
     dispatch(userRegistrationRequest(payload));
     handleClose();
   };
 
-  const signOut = (event) => {
-    event.preventDefault();
+  const signOut = () => {
     dispatch(userLogOut());
   };
 
-  const { error, token } = useSelector((state) => state.user);
+  const { error, userData } = useSelector((state) => state.user);
 
-  if (token) {
+  if (userData) {
     return (
-      <Button onClick={signOut} className="h-25" variant="primary" type="submit">
+      <Button onClick={signOut} className="h-25" variant="primary">
         Sign Out
       </Button>
-    );
-  }
-
-  if (error) {
-    return (
-      <div>
-        <Form onSubmit={onSubmit}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" name="email" />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              name="password"
-            />
-          </Form.Group>
-          <Button className="mb-3" variant="primary" type="submit">
-            Log In
-          </Button>
-        </Form>
-        <Button variant="primary" onClick={handleShow}>
-          Sign Up
-        </Button>
-        <Alert variant="danger">{error.message}</Alert>
-      </div>
     );
   }
 
@@ -160,6 +130,7 @@ const Authorization = () => {
           </Button>
         </Form>
       </Modal>
+      {error && <Alert variant="danger">{error.message}</Alert>}
     </div>
   );
 };

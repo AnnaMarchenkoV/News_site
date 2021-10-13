@@ -4,12 +4,12 @@ import { NavLink } from 'react-router-dom';
 
 import classes from './Nav.module.css';
 
+const menuItems1 = { title: 'Newsfeeds', path: '/content' };
+const menuItems2 = { title: 'My profile', path: '/profile' };
 const Nav = () => {
-  const menuItems1 = { title: 'Newsfeeds', path: '/content' };
-  const menuItems2 = { title: 'My profile', path: '/profile' };
   const menuItems = [menuItems1];
-  const { token } = useSelector((state) => state.user);
-  if (token) {
+  const { userData } = useSelector((state) => state.user);
+  if (userData) {
     menuItems.push(menuItems2);
   }
   return (

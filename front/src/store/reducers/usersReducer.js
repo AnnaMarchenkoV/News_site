@@ -1,52 +1,59 @@
 import {
-  REQUEST_TOKEN_FAILURE, RECEIVED_TOKEN, REQUESTED_TOKEN,
-  USER_REGISTRATION_REQUEST, USER_AUTHENTICATE,
-  USER_LOG_OUT, USER_LOG_OUT_FAIL, USER_LOG_OUT_SUCCESS,
+  USER_REJECTED, USER_RECEIVED, USER_REQUESTED,
+  USER_REGISTRATION, USER_AUTHENTICATE_REQUESTED,
+  USER_LOGOUT_REQUESTED, USER_LOGOUT_REJECTED, USER_LOGOUT_RECEIVED,
+  USER_AUTHENTICATE_RECEIVED,
 } from '../actions/userActions';
-import { tokenFromLS } from '../helpers';
 
 const initialState = {
   fetching: false,
-  token: tokenFromLS || null,
   error: null,
+  userData: null,
 };
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
-    case REQUESTED_TOKEN:
+    case USER_REQUESTED:
       return { ...state, fetching: true, error: null };
-    case RECEIVED_TOKEN:
+    case USER_RECEIVED:
       return {
-        ...state, fetching: false, token: action.payload.token, error: null,
+        ...state, fetching: false, userData: action.payload, error: null,
       };
-    case REQUEST_TOKEN_FAILURE:
+    case USER_REJECTED:
       return {
         ...state,
         fetching: false,
-        token: null,
         error: action.error,
       };
-    case USER_REGISTRATION_REQUEST:
+    case USER_REGISTRATION:
       return { ...state, fetching: true, error: null };
 
-    case USER_AUTHENTICATE:
+    case USER_AUTHENTICATE_REQUESTED:
       return {
         ...state, fetching: false, error: null,
       };
 
-    case USER_LOG_OUT:
+    case USER_AUTHENTICATE_RECEIVED:
+      return {
+        ...state, fetching: false, userData: action.payload, error: null,
+      };
+
+    case USER_LOGOUT_REQUESTED:
       return {
         ...state, fetching: true, error: null,
       };
 
-    case USER_LOG_OUT_FAIL:
+    case USER_LOGOUT_REJECTED:
       return {
         ...state, fetching: false, error: action.error,
       };
 
-    case USER_LOG_OUT_SUCCESS:
+    case USER_LOGOUT_RECEIVED:
       return {
-        ...state, fetching: false, error: null, token: null,
+        ...state,
+        fetching: false,
+        userData: null,
+        error: null,
       };
 
     default:

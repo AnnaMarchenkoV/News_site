@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { tokenFromLS } from '../store/helpers/index';
+import { removeTokenFromLS, getTokenFromLS } from '../store/helpers/index';
 
 const Api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -9,10 +9,11 @@ const Api = axios.create({
 Api.interceptors.request.use(
   (config) => {
     const customConfig = config;
-    if (tokenFromLS) {
-      customConfig.headers.ContentType = 'application/json; charset=UTF-8';
-      customConfig.headers.Authorization = JSON.parse(tokenFromLS);
+    const token = getTokenFromLS();
+    if (token) {
+      customConfig.headers.Authorization = (token);
     }
+    customConfig.headers.ContentType = 'application/json; charset=UTF-8';
     return customConfig;
   },
   (error) => Promise.reject(error),
@@ -20,7 +21,7 @@ Api.interceptors.request.use(
 
 Api.interceptors.response.use(null, (error) => {
   if (error.response.status === 401) {
-    localStorage.setItem('token', '');
+    removeTokenFromLS('token');
   }
   return Promise.reject(error);
 });

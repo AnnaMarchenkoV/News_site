@@ -2,18 +2,19 @@ import { takeLatest, call, put } from 'redux-saga/effects';
 import Api from '../../api';
 
 import {
-  receivedToken, requestedTokenFail, logOutFail, logOutSuccess,
-  REQUESTED_TOKEN, USER_REGISTRATION_REQUEST,
-  USER_AUTHENTICATE, USER_LOG_OUT,
+  loginSuccess, loginFail, logOutFail, logOutSuccess,
+  userAuthenticateSuccess,
+  USER_REQUESTED, USER_REGISTRATION,
+  USER_AUTHENTICATE_REQUESTED, USER_LOGOUT_REQUESTED,
 } from '../actions/userActions';
-import { addToLS } from '../helpers';
+import { addTokenToLS, removeTokenFromLS } from '../helpers';
 
-export function userLogin(payload) {
-  return Api.post('users/sign_in', { user: payload.data });
+export function userLogin(action) {
+  return Api.post('users/sign_in', action.payload);
 }
 
-export function userRegistration(payload) {
-  return Api.post('users', { user: payload.data });
+export function userRegistration(action) {
+  return Api.post('users', action.payload);
 }
 
 export function userTokenCheck() {
@@ -24,33 +25,36 @@ export function destroyUserSession() {
   return Api.delete('users/sign_out');
 }
 
-function* workerSaga({ payload }) {
+function* workerUserLogin(action) {
   try {
-    const response = yield call(userLogin, payload);
+    const response = yield call(userLogin, action);
     const token = response.headers.authorization;
-    yield put(receivedToken({ token }));
-    yield addToLS(token);
+    const userData = response.data;
+    yield addTokenToLS(token);
+    yield put(loginSuccess(userData));
   } catch (error) {
-    yield put(requestedTokenFail(error));
+    yield put(loginFail(error));
   }
 }
 
-function* workerRegistration({ payload }) {
+function* workerRegistration(action) {
   try {
-    const response = yield call(userRegistration, payload);
+    const response = yield call(userRegistration, action);
     const token = response.headers.authorization;
-    yield put(receivedToken({ token }));
-    yield addToLS(token);
+    yield put(loginSuccess({ token }));
+    yield addTokenToLS(token);
   } catch (error) {
-    yield put(requestedTokenFail(error));
+    yield put(loginFail(error));
   }
 }
 
 function* workerAuthenticate() {
   try {
-    yield call(userTokenCheck);
+    const response = yield call(userTokenCheck);
+    const userData = response.data;
+    yield put(userAuthenticateSuccess(userData));
   } catch (error) {
-    yield put(requestedTokenFail(error));
+    yield put(loginFail(error));
   }
 }
 
@@ -61,22 +65,22 @@ function* workerUserLogOut() {
   } catch (error) {
     yield put(logOutFail(error));
   } finally {
-    yield localStorage.setItem('token', '');
+    yield removeTokenFromLS('token');
   }
 }
 
 export function* watcherUserReg() {
-  yield takeLatest(USER_REGISTRATION_REQUEST, workerRegistration);
+  yield takeLatest(USER_REGISTRATION, workerRegistration);
 }
 
 export function* watcherUserSaga() {
-  yield takeLatest(REQUESTED_TOKEN, workerSaga);
+  yield takeLatest(USER_REQUESTED, workerUserLogin);
 }
 
 export function* watcherUserAuth() {
-  yield takeLatest(USER_AUTHENTICATE, workerAuthenticate);
+  yield takeLatest(USER_AUTHENTICATE_REQUESTED, workerAuthenticate);
 }
 
 export function* watcherUserLogOut() {
-  yield takeLatest(USER_LOG_OUT, workerUserLogOut);
+  yield takeLatest(USER_LOGOUT_REQUESTED, workerUserLogOut);
 }
