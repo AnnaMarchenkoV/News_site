@@ -21,6 +21,9 @@ export const loginFail = createAction(USER_REJECTED);
 export const userRegistrationRequest = createAction(USER_REGISTRATION);
 
 export const userAuthenticate = createAction(USER_AUTHENTICATE_REQUESTED);
+export const userAuthenticateSuccess = createAction(USER_AUTHENTICATE_RECEIVED);
+export const userAuthenticateFail = createAction(USER_AUTHENTICATE_REJECTED);
 
 export const userLogOut = createAction(USER_LOGOUT_REQUESTED);
 export const logOutSuccess = createAction(USER_LOGOUT_RECEIVED);
+export const logOutFail = createAction(USER_LOGOUT_REJECTED);
