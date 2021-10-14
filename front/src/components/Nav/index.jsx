@@ -1,21 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useMemo } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import classes from './Nav.module.css';
 
 const newsfeeds = { title: 'Newsfeeds', path: '/content' };
 const profile = { title: 'My profile', path: '/profile' };
+const routesAuthorized = [newsfeeds, profile];
+const routesUnauthorized = [newsfeeds];
 
 const Nav = () => {
-  const routesAuthorized = [newsfeeds, profile];
-  const routesUnauthorized = [newsfeeds];
-  const [menuItems, setMenuItems] = useState(routesUnauthorized);
   const { userData } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    setMenuItems(routesAuthorized);
-  }, [userData]);
+  const menuItems = useMemo(
+    () => (userData ? routesAuthorized : routesUnauthorized),
+    [userData],
+  );
 
   return (
     <div className={classes.navigation}>

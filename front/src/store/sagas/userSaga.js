@@ -46,8 +46,9 @@ function* workerRegistration(action) {
   try {
     const response = yield call(userRegistration, action.payload);
     const token = response.headers.authorization;
-    put(loginSuccess({ token }));
-    yield addTokenToLS(token);
+    const userData = response.data;
+    addTokenToLS(token);
+    yield put(loginSuccess(userData));
   } catch (error) {
     yield put(loginFail(error));
   }

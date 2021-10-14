@@ -4,6 +4,7 @@ import Authorization from './Authorization';
 
 import logo from './assets/logo.png';
 import classes from './Header.module.css';
+import Registration from './Registration';
 
 const Header = () => (
   <header className={classes.header}>
@@ -12,7 +13,10 @@ const Header = () => (
       src={logo}
       alt=""
     />
-    <Authorization />
+    <div>
+      <Authorization />
+      <Registration />
+    </div>
   </header>
 );
 

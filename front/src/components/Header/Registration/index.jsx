@@ -3,30 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import sha256 from 'crypto-js/sha256';
 import { Form, Button } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
-import Alert from 'react-bootstrap/Alert';
 
 import {
-  userLogin,
   userRegistrationRequest,
-  userLogOut,
 } from '../../../store/actions/userActions';
 
-const Authorization = () => {
+const Registration = () => {
   const dispatch = useDispatch();
 
-  const onSubmit = (event) => {
-    event.preventDefault();
-    const dataLogIn = new FormData(event.target);
-    const payload = {
-      user: {
-        email: dataLogIn.get('email'),
-        password: sha256(dataLogIn.get('password')).toString(),
-      },
-    };
-    dispatch(userLogin(payload));
-  };
-
   const [isModalShown, setShownModal] = useState(false);
+  const handleShow = () => setShownModal(true);
   const handleClose = () => setShownModal(false);
 
   const onSubmitReg = (event) => {
@@ -45,41 +31,19 @@ const Authorization = () => {
     handleClose();
   };
 
-  const signOut = () => {
-    dispatch(userLogOut());
-  };
-
-  const { error, userData } = useSelector((state) => state.user);
+  const { userData } = useSelector((state) => state.user);
 
   if (userData) {
     return (
-      <Button onClick={signOut} className="h-25" variant="primary">
-        Sign Out
-      </Button>
+      <div />
     );
   }
 
   return (
     <div>
-      <Form onSubmit={onSubmit}>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" name="email" />
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            name="password"
-          />
-        </Form.Group>
-        <Button className="mb-3" variant="primary" type="submit">
-          Log In
-        </Button>
-      </Form>
-
+      <Button variant="primary" onClick={handleShow}>
+        Sign Up
+      </Button>
       <Modal show={isModalShown} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Registration</Modal.Title>
@@ -126,9 +90,8 @@ const Authorization = () => {
           </Button>
         </Form>
       </Modal>
-      {error && <Alert variant="danger">{error.message}</Alert>}
     </div>
   );
 };
 
-export default Authorization;
+export default Registration;
