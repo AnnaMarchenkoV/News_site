@@ -1,9 +1,29 @@
 import { createAction } from 'redux-actions';
 
-export const REQUESTED_TOKEN = 'USER/REQUESTED_TOKEN';
-export const RECEIVED_TOKEN = 'USER/RECEIVED_TOKEN';
-export const REQUEST_TOKEN_FAILURE = 'USER/REQUEST_TOKEN_FAILURE';
+export const USER_REQUESTED = 'USER/REQUESTED';
+export const USER_RECEIVED = 'USER/RECEIVED';
+export const USER_REJECTED = 'USER/REJECTED';
 
-export const requestedToken = createAction(REQUESTED_TOKEN);
-export const receivedToken = createAction(RECEIVED_TOKEN);
-export const requestedTokenFail = createAction(REQUEST_TOKEN_FAILURE);
+export const USER_REGISTRATION = 'USER/REGISTRATION';
+
+export const USER_AUTHENTICATE_REQUESTED = 'USER/AUTHENTICATE_REQUESTED';
+export const USER_AUTHENTICATE_RECEIVED = 'USER/AUTHENTICATE_RECEIVED';
+export const USER_AUTHENTICATE_REJECTED = 'USER/AUTHENTICATE_REJECTED';
+
+export const USER_LOGOUT_REQUESTED = 'USER/LOGOUT_REQUESTED';
+export const USER_LOGOUT_RECEIVED = 'USER/LOGOUT_RECEIVED';
+export const USER_LOGOUT_REJECTED = 'USER/LOGOUT_REJECTED';
+
+export const userLogin = createAction(USER_REQUESTED);
+export const loginSuccess = createAction(USER_RECEIVED);
+export const loginFail = createAction(USER_REJECTED);
+
+export const userRegistrationRequest = createAction(USER_REGISTRATION);
+
+export const userAuthenticate = createAction(USER_AUTHENTICATE_REQUESTED);
+export const userAuthenticateSuccess = createAction(USER_AUTHENTICATE_RECEIVED);
+export const userAuthenticateFail = createAction(USER_AUTHENTICATE_REJECTED);
+
+export const userLogOut = createAction(USER_LOGOUT_REQUESTED);
+export const logOutSuccess = createAction(USER_LOGOUT_RECEIVED);
+export const logOutFail = createAction(USER_LOGOUT_REJECTED);

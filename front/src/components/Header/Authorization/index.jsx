@@ -1,41 +1,66 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import sha256 from 'crypto-js/sha256';
 import { Form, Button } from 'react-bootstrap';
+import Alert from 'react-bootstrap/Alert';
 
-import { requestedToken } from '../../../store/actions/userActions';
+import {
+  userLogin,
+  userLogOut,
+} from '../../../store/actions/userActions';
 
 const Authorization = () => {
   const dispatch = useDispatch();
 
   const onSubmit = (event) => {
     event.preventDefault();
-
+    const dataLogIn = new FormData(event.target);
     const payload = {
-      data: {
-        email: event.target.email.value,
-        password: event.target.password.value,
+      user: {
+        email: dataLogIn.get('email'),
+        password: sha256(dataLogIn.get('password')).toString(),
       },
     };
-    dispatch(requestedToken(payload));
+    dispatch(userLogin(payload));
   };
-  return (
-    <Form onSubmit={onSubmit}>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" name="email" />
-      </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" name="password" />
-      </Form.Group>
-      <Button className="m-3" variant="primary" type="submit">
-        Log In
+  const signOut = () => {
+    dispatch(userLogOut());
+  };
+
+  const { error, userData } = useSelector((state) => state.user);
+
+  if (userData) {
+    return (
+      <Button onClick={signOut} className="h-25" variant="primary">
+        Sign Out
       </Button>
-      <Button variant="primary" type="submit">
-        Sign Up
-      </Button>
-    </Form>
+    );
+  }
+
+  return (
+    <div>
+      <Form onSubmit={onSubmit}>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control type="email" placeholder="Enter email" name="email" />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            name="password"
+          />
+        </Form.Group>
+        <Button className="mb-3" variant="primary" type="submit">
+          Log In
+        </Button>
+      </Form>
+
+      {error && <Alert variant="danger">{error.message}</Alert>}
+    </div>
   );
 };
 
