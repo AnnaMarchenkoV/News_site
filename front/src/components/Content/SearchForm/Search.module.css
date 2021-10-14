@@ -2,7 +2,15 @@
   text-align: center;
 }
 
-.search__request {
-  background: rgb(215, 229, 245);
-  width: 50%;
+.search__option {
+  width: 150px !important;
+  height: 38px;
+}
+
+.search__form {
+  display: flex;
+}
+
+.search__value {
+  width: 550px !important;
 }
