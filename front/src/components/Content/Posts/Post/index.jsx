@@ -1,21 +1,20 @@
-/* eslint-disable react/prop-types */
 import React, { memo } from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const Post = memo(({
   post: {
-    user: { login, email },
+    user: { login, email, id },
     title, body, tags,
   },
 }) => {
-  const user = { login, email };
+  const user = { login, email, id };
   return (
     <div className="card">
       <h3 className="card-title">{ title }</h3>
       <h5 className="card-title">{ body }</h5>
       <h5 className="card-title">{ tags }</h5>
-      <NavLink user={user} to={`/profile/${login}`}>
+      <NavLink to={`/profile/${id}`}>
         { login }
       </NavLink>
     </div>
@@ -24,7 +23,11 @@ const Post = memo(({
 
 Post.propTypes = {
   post: PropTypes.shape({
-    user: PropTypes.shape({ login: PropTypes.string.isRequired }).isRequired,
+    user: PropTypes.shape({
+      login: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+    }).isRequired,
     title: PropTypes.string.isRequired,
     body: PropTypes.string.isRequired,
     tags: PropTypes.string.isRequired,

@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import { removeTokenFromLS, getTokenFromLS } from '../store/helpers/localStorageHelpers';
 
+const UNAUTHORIZED_STATUS = 401;
+
 const Api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
@@ -20,7 +22,7 @@ Api.interceptors.request.use(
 );
 
 Api.interceptors.response.use(null, (error) => {
-  if (error.response.status === 401) {
+  if (error.response.status === UNAUTHORIZED_STATUS) {
     removeTokenFromLS('token');
   }
   return Promise.reject(error);
