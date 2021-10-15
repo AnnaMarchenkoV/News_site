@@ -1,6 +1,7 @@
 import React, { useEffect, memo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import { Spinner } from 'react-bootstrap';
 import Alert from 'react-bootstrap/Alert';
 import Pagination from '@mui/material/Pagination';
@@ -8,45 +9,44 @@ import Pagination from '@mui/material/Pagination';
 import Post from './Post/index';
 import { fetchPosts } from '../../../store/actions/postActions';
 
-const Posts = memo(({ props: { tempSearch, selectOption } }) => {
+const limitPosts = 5;
+
+const Posts = memo(({ searchTerm }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
-  const { items, error, isFetching } = useSelector((state) => state.posts);
-
   const [currentPage, setCurrentPage] = useState(1);
 
-  let filterPosts;
-  switch (selectOption) {
-    case 'all':
-      filterPosts = items.filter((item) => item.title.includes(tempSearch)
-      || item.body.includes(tempSearch) || item.tags.includes(tempSearch));
-      break;
+  const { items, error, isFetching } = useSelector((state) => state.posts);
 
-    case 'author':
-      filterPosts = items.filter((item) => item.user.login.includes(tempSearch));
-      break;
-    case 'tags':
-      filterPosts = items.filter((item) => item.tags.includes(tempSearch));
-      break;
+  const searchItem = (item) => item.includes(searchTerm.tempSearch);
 
-    default:
-      filterPosts = items;
-      break;
-  }
+  const filterPosts = items.filter((item) => {
+    switch (searchTerm.selectOption) {
+      case 'all':
+        return (
+          [item.body, item.title, item.user.login].some(searchItem)
+        );
 
-  const limitPosts = 5;
+      case 'author':
+        return [item.user.login].some(searchItem);
+
+      case 'tags':
+        return [item.tags].some(searchItem);
+
+      default:
+        return true;
+    }
+  });
+
   const handleChange = (event, newPage) => setCurrentPage(newPage);
+
   const totalPages = Math.ceil(filterPosts.length / limitPosts);
 
-  const postsOnPage = filterPosts.slice((currentPage - 1) * limitPosts, currentPage * limitPosts);
-
-  if (isFetching) {
-    return <Spinner animation="border" />;
-  }
+  const postsOnPage = filterPosts?.slice((currentPage - 1) * limitPosts, currentPage * limitPosts);
 
   if (error) {
     let message;
@@ -58,6 +58,7 @@ const Posts = memo(({ props: { tempSearch, selectOption } }) => {
   return (
     <>
       <div>
+        {isFetching && <Spinner animation="border" />}
         {postsOnPage?.map((post) => <Post post={post} key={post.id} />)}
       </div>
       <Pagination count={totalPages} page={currentPage} onChange={handleChange} />
@@ -66,7 +67,7 @@ const Posts = memo(({ props: { tempSearch, selectOption } }) => {
 });
 
 Posts.propTypes = {
-  props: PropTypes.shape({
+  searchTerm: PropTypes.shape({
     tempSearch: PropTypes.string.isRequired,
     selectOption: PropTypes.string.isRequired,
   }).isRequired,

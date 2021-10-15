@@ -1,16 +1,18 @@
-/* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 import classes from './Search.module.css';
 
-const SearchForm = ({ value, onSubmitSearch }) => {
-  const [tempSearch, setTempSearch] = useState(value);
-
+const SearchForm = ({ onSubmitSearch }) => {
   const onSubmit = (event) => {
     event.preventDefault();
-    const selectOption = event.target.select.value;
+
+    const data = new FormData(event.target);
+    const selectOption = data.get('select');
+    const tempSearch = data.get('search');
     onSubmitSearch({ tempSearch, selectOption });
   };
   return (
@@ -26,7 +28,6 @@ const SearchForm = ({ value, onSubmitSearch }) => {
             type="text"
             placeholder="Search..."
             name="search"
-            onChange={(event) => { setTempSearch(event.currentTarget.value); }}
             className={classes.search__value}
           />
         </Form.Group>
@@ -34,6 +35,10 @@ const SearchForm = ({ value, onSubmitSearch }) => {
       </Form>
     </div>
   );
+};
+
+SearchForm.propTypes = {
+  onSubmitSearch: PropTypes.string.isRequired,
 };
 
 export default SearchForm;
