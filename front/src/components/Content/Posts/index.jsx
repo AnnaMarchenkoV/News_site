@@ -1,4 +1,4 @@
-import React, { useEffect, memo, useState } from 'react';
+import React, { useEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -6,10 +6,11 @@ import { Spinner } from 'react-bootstrap';
 import Alert from 'react-bootstrap/Alert';
 import Pagination from '@mui/material/Pagination';
 
+import usePaging from '../../../hooks/use-pagination';
 import Post from './Post/index';
 import { fetchPosts } from '../../../store/actions/postActions';
 
-const limitPosts = 5;
+const PER_PAGE = 3;
 
 const Posts = memo(({ searchTerm }) => {
   const dispatch = useDispatch();
@@ -18,35 +19,36 @@ const Posts = memo(({ searchTerm }) => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
-  const [currentPage, setCurrentPage] = useState(1);
-
   const { items, error, isFetching } = useSelector((state) => state.posts);
 
-  const searchItem = (item) => item.includes(searchTerm.tempSearch);
+  const checkIncludes = (item) => item.includes(searchTerm.tempSearch);
 
   const filterPosts = items.filter((item) => {
     switch (searchTerm.selectOption) {
       case 'all':
-        return (
-          [item.body, item.title, item.user.login].some(searchItem)
-        );
+        return [item.body, item.title, item.user.login].some(checkIncludes);
 
       case 'author':
-        return [item.user.login].some(searchItem);
+        return [item.user.login].some(checkIncludes);
 
       case 'tags':
-        return [item.tags].some(searchItem);
+        return [item.tags].some(checkIncludes);
 
       default:
         return true;
     }
   });
 
-  const handleChange = (event, newPage) => setCurrentPage(newPage);
+  const {
+    totalPages,
+    currentPage,
+    setCurrentPage,
+    pageItems: postsPageItems,
+  } = usePaging(filterPosts, PER_PAGE);
 
-  const totalPages = Math.ceil(filterPosts.length / limitPosts);
-
-  const postsOnPage = filterPosts?.slice((currentPage - 1) * limitPosts, currentPage * limitPosts);
+  const handleChange = (e, newPage) => {
+    setCurrentPage(newPage);
+  };
 
   if (error) {
     let message;
@@ -59,9 +61,15 @@ const Posts = memo(({ searchTerm }) => {
     <>
       <div>
         {isFetching && <Spinner animation="border" />}
-        {postsOnPage?.map((post) => <Post post={post} key={post.id} />)}
+        {postsPageItems()?.map((post) => (
+          <Post post={post} key={post.id} />
+        ))}
       </div>
-      <Pagination count={totalPages} page={currentPage} onChange={handleChange} />
+      <Pagination
+        count={totalPages}
+        page={currentPage}
+        onChange={handleChange}
+      />
     </>
   );
 });
