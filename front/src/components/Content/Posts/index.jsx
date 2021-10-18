@@ -1,4 +1,6 @@
-import React, { useEffect, memo } from 'react';
+import React, {
+  useEffect, useMemo, memo, useCallback,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -21,9 +23,10 @@ const Posts = memo(({ searchTerm }) => {
 
   const { items, error, isFetching } = useSelector((state) => state.posts);
 
-  const checkIncludes = (item) => item.includes(searchTerm.tempSearch);
+  const checkIncludes = useCallback((item) => item.includes(searchTerm.tempSearch),
+    searchTerm.tempSearch);
 
-  const filterPosts = items.filter((item) => {
+  const filteredPosts = useMemo(items.filter((item) => {
     switch (searchTerm.selectOption) {
       case 'all':
         return [item.body, item.title, item.user.login].some(checkIncludes);
@@ -37,16 +40,16 @@ const Posts = memo(({ searchTerm }) => {
       default:
         return true;
     }
-  });
+  }), items);
 
   const {
     totalPages,
     currentPage,
     setCurrentPage,
     pageItems: postsPageItems,
-  } = usePaging(filterPosts, ITEMS_PER_PAGE);
+  } = usePaging(filteredPosts, ITEMS_PER_PAGE);
 
-  const handleChange = (e, newPage) => {
+  const onChangePage = (e, newPage) => {
     setCurrentPage(newPage);
   };
 
@@ -68,7 +71,7 @@ const Posts = memo(({ searchTerm }) => {
       <Pagination
         count={totalPages}
         page={currentPage}
-        onChange={handleChange}
+        onChange={onChangePage}
       />
     </>
   );
