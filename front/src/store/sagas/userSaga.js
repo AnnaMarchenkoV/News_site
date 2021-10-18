@@ -7,11 +7,15 @@ import {
   logOutFail,
   logOutSuccess,
   userAuthenticateSuccess,
+  getUserSuccess,
+  getUserFail,
   USER_REQUESTED,
   USER_REGISTRATION,
   USER_AUTHENTICATE_REQUESTED,
   USER_LOGOUT_REQUESTED,
+  USER_GET_REQUESTED,
 } from '../actions/userActions';
+
 import { addTokenToLS, removeTokenFromLS } from '../helpers/localStorageHelpers';
 
 export function userLogin(payload) {
@@ -28,6 +32,10 @@ export function userTokenCheck() {
 
 export function destroyUserSession() {
   return Api.delete('users/sign_out');
+}
+
+export function getCurrentUserInfo(payload) {
+  return Api.get(`member-data/${payload}`);
 }
 
 function* workerUserLogin(action) {
@@ -75,6 +83,16 @@ function* workerUserLogOut() {
   }
 }
 
+function* workerGetUser(action) {
+  try {
+    const response = yield call(getCurrentUserInfo, action.payload);
+    const currentUser = response.data;
+    yield put(getUserSuccess(currentUser));
+  } catch (error) {
+    yield put(getUserFail(error));
+  }
+}
+
 export function* watcherUserReg() {
   yield takeLatest(USER_REGISTRATION, workerRegistration);
 }
@@ -89,4 +107,8 @@ export function* watcherUserAuth() {
 
 export function* watcherUserLogOut() {
   yield takeLatest(USER_LOGOUT_REQUESTED, workerUserLogOut);
+}
+
+export function* watcherGetUser() {
+  yield takeLatest(USER_GET_REQUESTED, workerGetUser);
 }

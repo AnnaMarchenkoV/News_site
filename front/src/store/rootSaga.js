@@ -4,15 +4,23 @@ import {
   watcherUserReg,
   watcherUserAuth,
   watcherUserLogOut,
+  watcherGetUser,
 } from './sagas/userSaga';
-import { watcherPostsSaga } from './sagas/postsSaga';
+import {
+  watcherRequestPosts,
+  watcherRequestUserPosts,
+  watcherRequestSendPost,
+} from './sagas/postsSaga';
 
 export default function* rootSaga() {
   yield all([
     watcherUserSaga(),
-    watcherPostsSaga(),
+    watcherRequestPosts(),
+    watcherRequestUserPosts(),
+    watcherRequestSendPost(),
     watcherUserReg(),
     watcherUserAuth(),
     watcherUserLogOut(),
+    watcherGetUser(),
   ]);
 }
