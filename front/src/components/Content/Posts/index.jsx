@@ -10,7 +10,7 @@ import usePaging from '../../../hooks/use-pagination';
 import Post from './Post/index';
 import { fetchPosts } from '../../../store/actions/postActions';
 
-const PER_PAGE = 3;
+const ITEMS_PER_PAGE = 3;
 
 const Posts = memo(({ searchTerm }) => {
   const dispatch = useDispatch();
@@ -44,7 +44,7 @@ const Posts = memo(({ searchTerm }) => {
     currentPage,
     setCurrentPage,
     pageItems: postsPageItems,
-  } = usePaging(filterPosts, PER_PAGE);
+  } = usePaging(filterPosts, ITEMS_PER_PAGE);
 
   const handleChange = (e, newPage) => {
     setCurrentPage(newPage);
@@ -61,7 +61,7 @@ const Posts = memo(({ searchTerm }) => {
     <>
       <div>
         {isFetching && <Spinner animation="border" />}
-        {postsPageItems()?.map((post) => (
+        {postsPageItems?.map((post) => (
           <Post post={post} key={post.id} />
         ))}
       </div>
