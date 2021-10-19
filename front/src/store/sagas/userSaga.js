@@ -9,11 +9,14 @@ import {
   userAuthenticateSuccess,
   getUserSuccess,
   getUserFail,
+  updateUserFail,
+  updateUserSuccess,
   USER_REQUESTED,
   USER_REGISTRATION,
   USER_AUTHENTICATE_REQUESTED,
   USER_LOGOUT_REQUESTED,
   USER_GET_REQUESTED,
+  USER_UPDATE_REQUESTED,
 } from '../actions/userActions';
 
 import { addTokenToLS, removeTokenFromLS } from '../helpers/localStorageHelpers';
@@ -35,7 +38,11 @@ export function destroyUserSession() {
 }
 
 export function getCurrentUserInfo(payload) {
-  return Api.get(`member-data/${payload}`);
+  return Api.get(`get_user/${payload}`);
+}
+
+export function updateUserInfo(payload) {
+  return Api.patch(`update_user/${payload.user_id}`, payload.user);
 }
 
 function* workerUserLogin(action) {
@@ -93,6 +100,16 @@ function* workerGetUser(action) {
   }
 }
 
+function* workerUpdateUser(action) {
+  try {
+    const response = yield call(updateUserInfo, action.payload);
+    const userData = response.data;
+    yield put(updateUserSuccess(userData));
+  } catch (error) {
+    yield put(updateUserFail(error));
+  }
+}
+
 export function* watcherUserReg() {
   yield takeLatest(USER_REGISTRATION, workerRegistration);
 }
@@ -111,4 +128,8 @@ export function* watcherUserLogOut() {
 
 export function* watcherGetUser() {
   yield takeLatest(USER_GET_REQUESTED, workerGetUser);
+}
+
+export function* watcherUpdateUser() {
+  yield takeLatest(USER_UPDATE_REQUESTED, workerUpdateUser);
 }
