@@ -19,7 +19,7 @@ const Profile = () => {
 
   useEffect(() => {
     dispatch(getUser(id));
-  }, [dispatch, userData, id]);
+  }, [dispatch, id]);
 
   if (error) {
     return <Alert variant="danger">Войдите или зарегистрируйтесь, чтобы просматривать информацию пользователей</Alert>;
