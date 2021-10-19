@@ -5,6 +5,7 @@ import {
   watcherUserAuth,
   watcherUserLogOut,
   watcherGetUser,
+  watcherUpdateUser,
 } from './sagas/userSaga';
 import {
   watcherRequestPosts,
@@ -22,5 +23,6 @@ export default function* rootSaga() {
     watcherUserAuth(),
     watcherUserLogOut(),
     watcherGetUser(),
+    watcherUpdateUser(),
   ]);
 }

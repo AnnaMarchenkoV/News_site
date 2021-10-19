@@ -1,20 +1,12 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
-import { getUser } from '../../../store/actions/userActions';
+import UpdateProfile from '../UpdateProfile';
 
 import classes from './ProfileInfo.module.css';
 
 const ProfileInfo = () => {
-  const dispatch = useDispatch();
-  const { id } = useParams();
-
-  useEffect(() => {
-    dispatch(getUser(id));
-  }, [dispatch]);
-
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, userData } = useSelector((state) => state.user);
 
   return (
     <div>
@@ -29,6 +21,7 @@ const ProfileInfo = () => {
           { currentUser?.email }
         </div>
       </div>
+      {currentUser?.id === userData?.id && <UpdateProfile />}
 
     </div>
   );
