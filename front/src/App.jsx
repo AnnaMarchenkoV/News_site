@@ -25,7 +25,7 @@ function App() {
         <Header />
         <Nav />
         <Route path="/content" component={Content} />
-        <Route path="/profile" component={Profile} />
+        <Route path="/profile/:id" component={Profile} />
       </div>
     </Router>
   );

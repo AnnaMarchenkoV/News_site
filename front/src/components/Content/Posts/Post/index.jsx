@@ -4,22 +4,19 @@ import PropTypes from 'prop-types';
 
 const Post = memo(({
   post: {
-    user: { login, email, id },
+    user: { login, id },
     title, body, tags,
   },
-}) => {
-  const user = { login, email, id };
-  return (
-    <div className="card">
-      <h3 className="card-title">{ title }</h3>
-      <h5 className="card-title">{ body }</h5>
-      <h5 className="card-title">{ tags }</h5>
-      <NavLink to={`/profile/${id}`}>
-        { login }
-      </NavLink>
-    </div>
-  );
-});
+}) => (
+  <div className="card">
+    <h3 className="card-title">{ title }</h3>
+    <h5 className="card-title">{ body }</h5>
+    <h5 className="card-title">{ tags }</h5>
+    <NavLink to={`/profile/${id}`}>
+      { login }
+    </NavLink>
+  </div>
+));
 
 Post.propTypes = {
   post: PropTypes.shape({

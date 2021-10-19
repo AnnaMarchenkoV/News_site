@@ -14,6 +14,10 @@ export const USER_LOGOUT_REQUESTED = 'USER/LOGOUT_REQUESTED';
 export const USER_LOGOUT_RECEIVED = 'USER/LOGOUT_RECEIVED';
 export const USER_LOGOUT_REJECTED = 'USER/LOGOUT_REJECTED';
 
+export const USER_GET_REQUESTED = 'USER/GET_REQUESTED';
+export const USER_GET_RECEIVED = 'USER/GET_RECEIVED';
+export const USER_GET_REJECTED = 'USER/GET_REJECTED';
+
 export const userLogin = createAction(USER_REQUESTED);
 export const loginSuccess = createAction(USER_RECEIVED);
 export const loginFail = createAction(USER_REJECTED);
@@ -27,3 +31,7 @@ export const userAuthenticateFail = createAction(USER_AUTHENTICATE_REJECTED);
 export const userLogOut = createAction(USER_LOGOUT_REQUESTED);
 export const logOutSuccess = createAction(USER_LOGOUT_RECEIVED);
 export const logOutFail = createAction(USER_LOGOUT_REJECTED);
+
+export const getUser = createAction(USER_GET_REQUESTED);
+export const getUserSuccess = createAction(USER_GET_RECEIVED);
+export const getUserFail = createAction(USER_GET_REJECTED);
