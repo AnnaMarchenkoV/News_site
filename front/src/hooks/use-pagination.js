@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function usePaging(items = [], itemsPerPage) {
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(items.length / itemsPerPage);
+  useEffect(() => {
+    if (currentPage > totalPages) { setCurrentPage(1); }
+  }, [items]);
 
   const begin = (currentPage - 1) * itemsPerPage;
   const end = begin + itemsPerPage;

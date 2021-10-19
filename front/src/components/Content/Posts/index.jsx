@@ -23,7 +23,7 @@ const Posts = memo(({ searchTerm }) => {
 
   const { items, error, isFetching } = useSelector((state) => state.posts);
 
-  const checkIncludes = useCallback((item) => item.includes(searchTerm.tempSearch),
+  const checkIncludes = useCallback((item) => item?.includes(searchTerm.tempSearch),
     searchTerm.tempSearch);
 
   const filteredPosts = useMemo(items.filter((item) => {
@@ -53,28 +53,23 @@ const Posts = memo(({ searchTerm }) => {
     setCurrentPage(newPage);
   };
 
-  if (error) {
-    let message;
-    if (process.env.NODE_ENV !== 'production') message = error.message;
-    else message = 'Loading error';
-    return <Alert variant="danger">{message}</Alert>;
-  }
+    <Alert variant="danger">{process.env.NODE_ENV !== 'production' ? error.message : 'Loading error'}</Alert>;
 
-  return (
-    <>
-      <div>
-        {isFetching && <Spinner animation="border" />}
-        {postsPageItems?.map((post) => (
-          <Post post={post} key={post.id} />
-        ))}
-      </div>
-      <Pagination
-        count={totalPages}
-        page={currentPage}
-        onChange={onChangePage}
-      />
-    </>
-  );
+    return (
+      <>
+        <div>
+          {isFetching && <Spinner animation="border" />}
+          {postsPageItems?.map((post) => (
+            <Post post={post} key={post.id} />
+          ))}
+        </div>
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={onChangePage}
+        />
+      </>
+    );
 });
 
 Posts.propTypes = {
