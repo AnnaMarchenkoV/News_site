@@ -15,15 +15,26 @@ import {
 import Api from '../../api';
 
 export function fetchPosts() {
-  return Api.get('posts/get-all');
+  return Api.get('posts/all');
 }
 
 export function fetchUserPosts(payload) {
-  return Api.get(`posts/get-all/${payload}`);
+  return Api.get(`posts?user_id=${payload}`);
 }
 
 export function sendPost(payload) {
-  return Api.post('posts', payload);
+  const postFormData = new FormData();
+  postFormData.append('title', payload.post.title);
+  postFormData.append('body', payload.post.body);
+  postFormData.append('picture', payload.post.picture);
+  postFormData.append('tags', payload.post.tags);
+
+  return Api({
+    method: 'post',
+    url: 'posts',
+    data: postFormData,
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
 }
 
 function* workerRequestPosts() {

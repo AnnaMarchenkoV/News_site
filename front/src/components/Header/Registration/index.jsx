@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import sha256 from 'crypto-js/sha256';
+
 import { Form, Button } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 
@@ -25,8 +26,10 @@ const Registration = () => {
         email: dataReg.get('emailReg'),
         password: sha256(dataReg.get('passwordReg')).toString(),
         login: dataReg.get('loginReg'),
+        avatar: dataReg.get('avatar'),
       },
     };
+
     dispatch(userRegistrationRequest(payload));
     handleClose();
   };
@@ -79,7 +82,7 @@ const Registration = () => {
 
           <Form.Group className="m-3" controlId="formFileLg">
             <Form.Label>Avatar</Form.Label>
-            <Form.Control type="file" size="lg" />
+            <Form.Control type="file" size="lg" name="avatar" />
           </Form.Group>
 
           <Button variant="secondary" onClick={handleClose} className="m-3">

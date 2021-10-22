@@ -22,9 +22,13 @@ const UpdateProfile = () => {
     const payload = {
       user_id: userData.id,
       user: {
+        id: userData.id,
         login: dataUpdate.get('login'),
+        avatar: dataUpdate.get('avatar'),
       },
     };
+    console.log(payload);
+
     dispatch(updateUser(payload));
     handleClose();
   };
@@ -48,6 +52,11 @@ const UpdateProfile = () => {
               placeholder="Enter new login"
               name="login"
             />
+          </Form.Group>
+
+          <Form.Group className="m-3">
+            <Form.Label>Avatar</Form.Label>
+            <Form.Control type="file" size="lg" name="avatar" />
           </Form.Group>
 
           <Button variant="secondary" onClick={handleClose} className="m-3">

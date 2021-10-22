@@ -21,6 +21,7 @@ const NewPost = () => {
       post: {
         title: dataPost.get('title'),
         body: dataPost.get('body'),
+        picture: dataPost.get('picture'),
         tags: dataPost.get('tags'),
       },
     };
@@ -51,6 +52,11 @@ const NewPost = () => {
               style={{ height: '100px' }}
               name="body"
             />
+          </Form.Group>
+
+          <Form.Group className="m-3">
+            <Form.Label>Picture</Form.Label>
+            <Form.Control type="file" accept=".jpg,.png,.jpeg" size="lg" name="picture" />
           </Form.Group>
 
           <Form.Group className="m-3">

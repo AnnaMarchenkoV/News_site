@@ -29,7 +29,7 @@ export default function postsReducer(state = initialState, action) {
     case USER_POSTS_REJECTED:
     case SEND_POST_REJECTED:
       return {
-        ...state, error: action.error, isFetching: false,
+        ...state, error: action.payload, isFetching: false,
       };
     case USER_POSTS_RECEIVED:
       return {

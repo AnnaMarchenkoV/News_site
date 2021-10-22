@@ -38,11 +38,20 @@ export function destroyUserSession() {
 }
 
 export function getCurrentUserInfo(payload) {
-  return Api.get(`get_user/${payload}`);
+  return Api.get(`users/${payload}`);
 }
 
 export function updateUserInfo(payload) {
-  return Api.patch(`update_user/${payload.user_id}`, payload.user);
+  const bodyFormData = new FormData();
+  bodyFormData.append('login', payload.user.login);
+  bodyFormData.append('avatar', payload.user.avatar);
+
+  return Api({
+    method: 'patch',
+    url: `users/${payload.user_id}`,
+    data: bodyFormData,
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
 }
 
 function* workerUserLogin(action) {
