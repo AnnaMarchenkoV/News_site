@@ -21,8 +21,8 @@ const Profile = () => {
     dispatch(getUser(id));
   }, [dispatch, id, userData?.updated_at]);
 
-  if (error) {
-    return <Alert variant="danger">Войдите или зарегистрируйтесь, чтобы просматривать информацию пользователей</Alert>;
+  if (!currentUser) {
+    return <Alert variant="danger">Войдите или зарегистрируйтесь</Alert>;
   }
 
   return (

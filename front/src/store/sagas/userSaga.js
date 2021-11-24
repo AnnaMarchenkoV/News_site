@@ -28,15 +28,14 @@ export function userLogin(payload) {
 export function userRegistration(payload) {
   return Api.post('auth/register', payload);
 }
-
-
+// удалить проверку на бэке
 export function userTokenCheck() {
   return Api.get('user/info');
 }
 
-export function destroyUserSession() {
-  return Api.delete('user');
-}
+// export function destroyUserSession() {
+//   return Api.delete('user');
+// }
 
 export function getCurrentUserInfo(payload) {
   return Api.get(`user/${payload}`);
@@ -62,9 +61,9 @@ export function updateUserInfo(payload) {
 function* workerUserLogin(action) {
   try {
     const response = yield call(userLogin, action.payload);
-    const token = response.headers.authorization;
-    const userData = response.data;
-    addTokenToLS(token);
+    console.log(response.data.data);
+    const userData = response.data.data;
+    addTokenToLS(JSON.stringify(userData));
     yield put(loginSuccess(userData));
   } catch (error) {
     yield put(loginFail(error));
@@ -74,9 +73,8 @@ function* workerUserLogin(action) {
 function* workerRegistration(action) {
   try {
     const response = yield call(userRegistration, action.payload);
-    const token = response.headers.authorization;
-    const userData = response.data;
-    addTokenToLS(token);
+    const userData = JSON.stringify(response.data.data);
+    addTokenToLS(JSON.stringify(userData));
     yield put(loginSuccess(userData));
   } catch (error) {
     yield put(loginFail(error));
@@ -86,7 +84,7 @@ function* workerRegistration(action) {
 function* workerAuthenticate() {
   try {
     const response = yield call(userTokenCheck);
-    const userData = response.data;
+    const userData = JSON.stringify(response.data.data);
     yield put(userAuthenticateSuccess(userData));
   } catch (error) {
     yield put(loginFail(error));
@@ -95,19 +93,18 @@ function* workerAuthenticate() {
 
 function* workerUserLogOut() {
   try {
-    yield call(destroyUserSession);
     yield put(logOutSuccess());
   } catch (error) {
     yield put(logOutFail(error));
   } finally {
-    yield removeTokenFromLS('token');
+    yield removeTokenFromLS('currentUser');
   }
 }
 
 function* workerGetUser(action) {
   try {
     const response = yield call(getCurrentUserInfo, action.payload);
-    const currentUser = response.data;
+    const currentUser = response.data.data;
     yield put(getUserSuccess(currentUser));
   } catch (error) {
     yield put(getUserFail(error));
@@ -117,7 +114,7 @@ function* workerGetUser(action) {
 function* workerUpdateUser(action) {
   try {
     const response = yield call(updateUserInfo, action.payload);
-    const userData = response.data;
+    const userData = JSON.stringify(response.data.data);
     yield put(updateUserSuccess(userData));
   } catch (error) {
     yield put(updateUserFail(error));

@@ -19,11 +19,11 @@ const ProfileInfo = () => {
           <Avatar
             alt="Avatar"
             // eslint-disable-next-line max-len
-            src={currentUser?.avatar.url ? process.env.REACT_APP_API_URL + currentUser?.avatar.url : avatar}
+            src={currentUser?.avatar ? currentUser?.avatar : avatar}
             sx={{ width: 56, height: 56 }}
           />
           <b>User login: </b>
-          { currentUser?.login }
+          { currentUser?.name }
         </div>
         <div>
           <b>User e-mail: </b>

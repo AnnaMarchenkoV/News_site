@@ -6,7 +6,7 @@ import Content from './components/Content/index';
 import Header from './components/Header/index';
 import Nav from './components/Nav/index';
 import Profile from './components/Profile/index';
-import { userAuthenticate } from './store/actions/userActions';
+// import { userAuthenticate } from './store/actions/userActions';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -15,9 +15,9 @@ import classes from './App.modules.css';
 function App() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(userAuthenticate());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(userAuthenticate());
+  // }, [dispatch]);
 
   return (
     <Router>

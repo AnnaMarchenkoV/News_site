@@ -19,7 +19,6 @@ const Post = memo(({post}) => (
     />
     <CardContent>
       <Typography gutterBottom variant="h5" component="div">
-      {console.log(post.tags[0].title)}
         { post.title }
       </Typography>
       <Typography variant="body2" color="text.secondary">
@@ -38,8 +37,8 @@ const Post = memo(({post}) => (
 Post.propTypes = {
   post: PropTypes.shape({
     title: PropTypes.string.isRequired,
-    body: PropTypes.string.isRequired,
-    picture: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
     tags: PropTypes.string.isRequired,
   }).isRequired,
 };

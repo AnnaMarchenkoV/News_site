@@ -15,7 +15,6 @@ const Nav = () => {
 
   return (
     <div className={classes.navigation}>
-      {console.log (menuItems)}
       {menuItems?.map(({ title, path }) => (
         <NavLink
           to={path}
