@@ -1,6 +1,5 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import sha256 from 'crypto-js/sha256';
 import { Form, Button } from 'react-bootstrap';
 import Alert from 'react-bootstrap/Alert';
 
@@ -16,11 +15,9 @@ const Authorization = () => {
     event.preventDefault();
     const dataLogIn = new FormData(event.target);
     const payload = {
-      user: {
         email: dataLogIn.get('email'),
-        password: sha256(dataLogIn.get('password')).toString(),
-      },
-    };
+        password: dataLogIn.get('password'),
+      }
     dispatch(userLogin(payload));
   };
 

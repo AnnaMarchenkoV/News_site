@@ -1,5 +1,5 @@
 import React, {
-  useEffect, useMemo, memo, useCallback,
+  useEffect, memo, useCallback,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -23,16 +23,15 @@ const Posts = memo(({ searchTerm }) => {
 
   const { items, error, isFetching } = useSelector((state) => state.posts);
 
-  const checkIncludes = useCallback((item) => item?.includes(searchTerm.tempSearch),
-    searchTerm.tempSearch);
+  const checkIncludes = (item) => item?.includes(searchTerm.tempSearch);
 
-  const filteredPosts = useMemo(items.filter((item) => {
+  const filteredPosts = items.filter((item) => {
     switch (searchTerm.selectOption) {
       case 'all':
-        return [item.body, item.title, item.user.login].some(checkIncludes);
+        return [item.description, item.title, item.username].some(checkIncludes);
 
       case 'author':
-        return [item.user.login].some(checkIncludes);
+        return [item.username].some(checkIncludes);
 
       case 'tags':
         return [item.tags].some(checkIncludes);
@@ -40,7 +39,7 @@ const Posts = memo(({ searchTerm }) => {
       default:
         return true;
     }
-  }), items);
+  });
 
   const {
     totalPages,
@@ -53,7 +52,7 @@ const Posts = memo(({ searchTerm }) => {
     setCurrentPage(newPage);
   };
 
-    <Alert variant="danger">{process.env.NODE_ENV !== 'production' ? error.message : 'Loading error'}</Alert>;
+    <Alert variant="danger">{'Loading error'}</Alert>;
 
     return (
       <>

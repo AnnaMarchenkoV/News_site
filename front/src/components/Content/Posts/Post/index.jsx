@@ -9,43 +9,34 @@ import Typography from '@mui/material/Typography';
 
 import news from './assets/news.jpeg';
 
-const Post = memo(({
-  post: {
-    user: { login, id },
-    title, body, picture, tags,
-  },
-}) => (
+const Post = memo(({post}) => (
   <Card sx={{ maxWidth: 345 }}>
     <CardMedia
       component="img"
       alt="news image"
       height="140"
-      image={picture.url ? process.env.REACT_APP_API_URL + picture.url : news}
+      image={post.image? post.image: news}
     />
     <CardContent>
       <Typography gutterBottom variant="h5" component="div">
-        { title }
+      {console.log(post.tags[0].title)}
+        { post.title }
       </Typography>
       <Typography variant="body2" color="text.secondary">
-        { body }
+        { post.description }
       </Typography>
       <Typography gutterBottom variant="h5" component="div">
-        { tags }
+        { post.tags[0].title }
       </Typography>
     </CardContent>
-    <NavLink to={`/profile/${id}`}>
-      { login }
+    <NavLink to={`/profile/${post.userId}`}>
+      { post.username }
     </NavLink>
   </Card>
 ));
 
 Post.propTypes = {
   post: PropTypes.shape({
-    user: PropTypes.shape({
-      login: PropTypes.string.isRequired,
-      email: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
-    }).isRequired,
     title: PropTypes.string.isRequired,
     body: PropTypes.string.isRequired,
     picture: PropTypes.string.isRequired,

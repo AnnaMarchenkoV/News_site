@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import sha256 from 'crypto-js/sha256';
 
 import { Form, Button } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
@@ -22,12 +21,11 @@ const Registration = () => {
     const dataReg = new FormData(event.target);
 
     const payload = {
-      user: {
+        avatar: "https://news-feed.dunice-testing.com/api/v1/file/89932e83-d505-4dc6-8d90-0b729e71f161.jpeg",
         email: dataReg.get('emailReg'),
-        password: sha256(dataReg.get('passwordReg')).toString(),
-        login: dataReg.get('loginReg'),
-        avatar: dataReg.get('avatar'),
-      },
+        name: dataReg.get('loginReg'),
+        password: dataReg.get('passwordReg'),
+        role: 'base',  
     };
 
     dispatch(userRegistrationRequest(payload));

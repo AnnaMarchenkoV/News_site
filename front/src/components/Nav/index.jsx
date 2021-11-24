@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -11,14 +11,12 @@ const Nav = () => {
   const routesAuthorized = [newsfeeds, profile];
   const routesUnauthorized = [newsfeeds];
 
-  const menuItems = useMemo(
-    () => (userData ? routesAuthorized : routesUnauthorized),
-    [userData],
-  );
+  const menuItems = (userData ? routesAuthorized : routesUnauthorized);
 
   return (
     <div className={classes.navigation}>
-      {menuItems.map(({ title, path }) => (
+      {console.log (menuItems)}
+      {menuItems?.map(({ title, path }) => (
         <NavLink
           to={path}
           className={classes.navigation__item}

@@ -15,32 +15,21 @@ import {
 import Api from '../../api';
 
 export function fetchPosts() {
-  return Api.get('posts/all');
+  return Api.get('news?page=1&perPage=5');
 }
 
 export function fetchUserPosts(payload) {
-  return Api.get(`posts?user_id=${payload}`);
+  return Api.get(`news/user/${payload}`);
 }
 
 export function sendPost(payload) {
-  const postFormData = new FormData();
-  postFormData.append('title', payload.post.title);
-  postFormData.append('body', payload.post.body);
-  postFormData.append('picture', payload.post.picture);
-  postFormData.append('tags', payload.post.tags);
-
-  return Api({
-    method: 'post',
-    url: 'posts',
-    data: postFormData,
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
+  return Api.post('news', payload);
 }
 
 function* workerRequestPosts() {
   try {
     const response = yield call(fetchPosts);
-    const payload = response.data;
+    const payload = response.data.data.content;
     yield put(fetchedPostsSuccess(payload));
   } catch (error) {
     yield put(fetchedPostsFail(error));

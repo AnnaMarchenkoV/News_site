@@ -22,24 +22,29 @@ import {
 import { addTokenToLS, removeTokenFromLS } from '../helpers/localStorageHelpers';
 
 export function userLogin(payload) {
-  return Api.post('users/sign_in', payload);
+  return Api.post('auth/login', payload);
 }
 
 export function userRegistration(payload) {
-  return Api.post('users', payload);
+  return Api.post('auth/register', payload);
 }
 
+
 export function userTokenCheck() {
-  return Api.get('member-data');
+  return Api.get('user/info');
 }
 
 export function destroyUserSession() {
-  return Api.delete('users/sign_out');
+  return Api.delete('user');
 }
 
 export function getCurrentUserInfo(payload) {
-  return Api.get(`users/${payload}`);
+  return Api.get(`user/${payload}`);
 }
+
+// export function updateUserInfo(payload) {
+//   return Api.put('user', payload.user);
+// }
 
 export function updateUserInfo(payload) {
   const bodyFormData = new FormData();
