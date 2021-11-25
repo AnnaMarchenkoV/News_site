@@ -25,45 +25,47 @@ export function userLogin(payload) {
   return Api.post('auth/login', payload);
 }
 
+// export function userRegistrationAvatar(payload) {
+//   const bodyFormData = new FormData();
+//   bodyFormData.append('file', payload.avatar);
+
+//   return Api({
+//     method: 'post',
+//     url: 'file/uploadFile',
+//     data: bodyFormData,
+//     headers: { 'Content-Type': 'multipart/form-data' },
+//   });
+// }
+
 export function userRegistration(payload) {
   return Api.post('auth/register', payload);
 }
-// удалить проверку на бэке
-export function userTokenCheck() {
-  return Api.get('user/info');
-}
-
-// export function destroyUserSession() {
-//   return Api.delete('user');
-// }
 
 export function getCurrentUserInfo(payload) {
   return Api.get(`user/${payload}`);
 }
 
-// export function updateUserInfo(payload) {
-//   return Api.put('user', payload.user);
-// }
-
-export function updateUserInfo(payload) {
+export function updateUserAvatar(payload) {
   const bodyFormData = new FormData();
-  bodyFormData.append('login', payload.user.login);
-  bodyFormData.append('avatar', payload.user.avatar);
+  bodyFormData.append('file', payload.avatar);
 
   return Api({
-    method: 'patch',
-    url: `users/${payload.user_id}`,
+    method: 'post',
+    url: 'file/uploadFile',
     data: bodyFormData,
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 }
 
+export function updateUserInfo(payload) {
+  return Api.put('user', payload);
+}
+
 function* workerUserLogin(action) {
   try {
     const response = yield call(userLogin, action.payload);
-    console.log(response.data.data);
     const userData = response.data.data;
-    addTokenToLS(JSON.stringify(userData));
+    addTokenToLS(userData);
     yield put(loginSuccess(userData));
   } catch (error) {
     yield put(loginFail(error));
@@ -72,9 +74,12 @@ function* workerUserLogin(action) {
 
 function* workerRegistration(action) {
   try {
+    const responseAvatar = yield call(updateUserAvatar, action.payload);
+    const avatar = responseAvatar.data.data;
+    action.payload.avatar = avatar;
     const response = yield call(userRegistration, action.payload);
-    const userData = JSON.stringify(response.data.data);
-    addTokenToLS(JSON.stringify(userData));
+    const userData = response.data.data;
+    addTokenToLS(userData);
     yield put(loginSuccess(userData));
   } catch (error) {
     yield put(loginFail(error));
@@ -83,8 +88,7 @@ function* workerRegistration(action) {
 
 function* workerAuthenticate() {
   try {
-    const response = yield call(userTokenCheck);
-    const userData = JSON.stringify(response.data.data);
+    const userData = yield getTokenFromLS();
     yield put(userAuthenticateSuccess(userData));
   } catch (error) {
     yield put(loginFail(error));
@@ -97,15 +101,15 @@ function* workerUserLogOut() {
   } catch (error) {
     yield put(logOutFail(error));
   } finally {
-    yield removeTokenFromLS('currentUser');
+    yield removeTokenFromLS('userData');
   }
 }
 
 function* workerGetUser(action) {
   try {
     const response = yield call(getCurrentUserInfo, action.payload);
-    const currentUser = response.data.data;
-    yield put(getUserSuccess(currentUser));
+    const userData = response.data.data;
+    yield put(getUserSuccess(userData));
   } catch (error) {
     yield put(getUserFail(error));
   }
@@ -113,8 +117,16 @@ function* workerGetUser(action) {
 
 function* workerUpdateUser(action) {
   try {
+    if (action.payload.avatar.name) {
+    const responseAvatar = yield call(updateUserAvatar, action.payload);
+    const avatar = responseAvatar.data.data;
+    action.payload.avatar = avatar;
+  }
     const response = yield call(updateUserInfo, action.payload);
-    const userData = JSON.stringify(response.data.data);
+    console.log('====================================');
+    console.log(response);
+    console.log('====================================');
+    const userData = response.data.data;
     yield put(updateUserSuccess(userData));
   } catch (error) {
     yield put(updateUserFail(error));

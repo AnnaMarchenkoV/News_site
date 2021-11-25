@@ -20,14 +20,11 @@ const UpdateProfile = () => {
     const dataUpdate = new FormData(event.target);
 
     const payload = {
-      user_id: userData.id,
-      user: {
-        id: userData.id,
-        login: dataUpdate.get('login'),
-        avatar: dataUpdate.get('avatar'),
-      },
+        avatar: dataUpdate.get('avatar').name? dataUpdate.get('avatar') : userData.avatar,
+        email : dataUpdate.get('email') || userData.email,
+        name : dataUpdate.get('name') || userData.name,
+        role: 'user'
     };
-    console.log(payload);
 
     dispatch(updateUser(payload));
     handleClose();
@@ -45,12 +42,21 @@ const UpdateProfile = () => {
 
         <Form onSubmit={onSubmitReg}>
 
-          <Form.Group className="m-3">
-            <Form.Label>New login</Form.Label>
+        <Form.Group className="m-3">
+            <Form.Label>New E-mail</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter new login"
-              name="login"
+              placeholder="Enter new e-mail"
+              name="email"
+            />
+          </Form.Group>
+          
+          <Form.Group className="m-3">
+            <Form.Label>New Name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter new name"
+              name="name"
             />
           </Form.Group>
 

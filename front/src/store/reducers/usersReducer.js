@@ -16,10 +16,12 @@ import {
   USER_UPDATE_REJECTED,
 } from '../actions/userActions';
 
+import { getTokenFromLS } from '../helpers/localStorageHelpers';
+
 const initialState = {
   isFetching: false,
   error: null,
-  userData: null,
+  userData: getTokenFromLS(),
   currentUser: null,
 };
 
@@ -30,12 +32,14 @@ export default function userReducer(state = initialState, action) {
     case USER_GET_REQUESTED:
     case USER_UPDATE_REQUESTED:
       return { ...state, isFetching: true, error: null };
+
     case USER_RECEIVED:
     case USER_AUTHENTICATE_RECEIVED:
     case USER_UPDATE_RECEIVED:
       return {
         ...state, isFetching: false, userData: action.payload, error: null,
       };
+
     case USER_REJECTED:
     case USER_LOGOUT_REJECTED:
     case USER_GET_REJECTED:

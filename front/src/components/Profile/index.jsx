@@ -15,13 +15,13 @@ import classes from './Profile.module.css';
 const Profile = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { userData, currentUser, error } = useSelector((state) => state.user);
+  const { userData, currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(getUser(id));
-  }, [dispatch, id, userData?.updated_at]);
+  }, [dispatch, id, userData]);
 
-  if (!currentUser) {
+  if (!userData) {
     return <Alert variant="danger">Войдите или зарегистрируйтесь</Alert>;
   }
 

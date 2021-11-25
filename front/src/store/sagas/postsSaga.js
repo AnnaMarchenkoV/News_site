@@ -19,7 +19,19 @@ export function fetchPosts() {
 }
 
 export function fetchUserPosts(payload) {
-  return Api.get(`news/user/${payload}`);
+  return Api.get(`news/user/${payload}/?page=1&perPage=1`);
+}
+
+export function sendAvatar(payload) {
+  const bodyFormData = new FormData();
+  bodyFormData.append('file', payload.image);
+
+  return Api({
+    method: 'post',
+    url: 'file/uploadFile',
+    data: bodyFormData,
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
 }
 
 export function sendPost(payload) {
@@ -39,7 +51,7 @@ function* workerRequestPosts() {
 function* workerRequestUserPosts(action) {
   try {
     const response = yield call(fetchUserPosts, action.payload);
-    const payload = response.data;
+    const payload = response.data.data.content;
     yield put(currentPostsSuccess(payload));
   } catch (error) {
     yield put(currentPostsFail(error));
@@ -48,6 +60,9 @@ function* workerRequestUserPosts(action) {
 
 function* workerRequestSendPost(action) {
   try {
+    const responseImage = yield call(sendAvatar, action.payload);
+    const image = responseImage.data.data;
+    action.payload.image = image;
     yield call(sendPost, action.payload);
     yield put(sendPostSuccess());
   } catch (error) {

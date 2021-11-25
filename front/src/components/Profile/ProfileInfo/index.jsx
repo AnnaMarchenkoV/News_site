@@ -18,7 +18,6 @@ const ProfileInfo = () => {
         <div>
           <Avatar
             alt="Avatar"
-            // eslint-disable-next-line max-len
             src={currentUser?.avatar ? currentUser?.avatar : avatar}
             sx={{ width: 56, height: 56 }}
           />

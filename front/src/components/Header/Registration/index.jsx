@@ -21,7 +21,7 @@ const Registration = () => {
     const dataReg = new FormData(event.target);
 
     const payload = {
-        avatar: "https://news-feed.dunice-testing.com/api/v1/file/89932e83-d505-4dc6-8d90-0b729e71f161.jpeg",
+        avatar: dataReg.get('avatar'),
         email: dataReg.get('emailReg'),
         name: dataReg.get('loginReg'),
         password: dataReg.get('passwordReg'),

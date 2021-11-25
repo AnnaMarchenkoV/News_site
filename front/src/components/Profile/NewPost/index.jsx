@@ -18,12 +18,10 @@ const NewPost = () => {
 
     const dataPost = new FormData(event.target);
     const payload = {
-      post: {
+        description: dataPost.get('body'),
+        image: dataPost.get('picture'),
+        tags: [dataPost.get('tags')],
         title: dataPost.get('title'),
-        body: dataPost.get('body'),
-        picture: dataPost.get('picture'),
-        tags: dataPost.get('tags'),
-      },
     };
     dispatch(sendPost(payload));
   };

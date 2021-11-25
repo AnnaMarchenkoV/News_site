@@ -14,7 +14,7 @@ function Google() {
   };
 
   const handleLoginFailure = (error) => {
-    console.log('Login Failure ', error);
+    console.log('Login Failure ', (error));
     setLoading();
   };
 
