@@ -25,7 +25,7 @@ const Post = memo(({post}) => (
         { post.description }
       </Typography>
       <Typography gutterBottom variant="h5" component="div">
-        { post.tags[0].title }
+        { post.tags?.[0]?.title }
       </Typography>
     </CardContent>
     <NavLink to={`/profile/${post.userId}`}>

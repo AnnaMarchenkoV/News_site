@@ -7,13 +7,14 @@ import Modal from 'react-bootstrap/Modal';
 import { sendPost } from '../../../store/actions/postActions';
 
 const NewPost = () => {
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
   const [isModalShown, setShownModal] = useState(false);
   const handleShow = () => setShownModal(true);
   const handleClose = () => setShownModal(false);
 
   const onSubmit = (event) => {
+
     event.preventDefault();
 
     const dataPost = new FormData(event.target);
@@ -25,6 +26,7 @@ const NewPost = () => {
     };
     dispatch(sendPost(payload));
   };
+  
   return (
     <div>
       <Button variant="primary" onClick={handleShow} className="mt-3">

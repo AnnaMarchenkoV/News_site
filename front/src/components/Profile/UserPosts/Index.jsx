@@ -1,5 +1,6 @@
 import React, {
-  useEffect, memo,
+  useEffect, memo, useCallback,
+  useState,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
@@ -7,55 +8,58 @@ import PropTypes from 'prop-types';
 
 import { Spinner } from 'react-bootstrap';
 import Alert from 'react-bootstrap/Alert';
-import Pagination from '@mui/material/Pagination';
 
-import usePaging from '../../../hooks/use-pagination';
 import Post from '../../Content/Posts/Post/index';
 import { currentPosts } from '../../../store/actions/postActions';
-
-const ITEMS_PER_PAGE = 3;
+import { ERRORS } from '../../../store/helpers/errors';
 
 const UserPosts = memo(() => {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const [page, setPage] = useState(1);
+  const userItems = useSelector((state) => state.posts.userItems);
+  const error = useSelector((state) => state.posts.error);
+  const isFetching = useSelector((state) => state.posts.isFetching);
+  const numberOfElements = useSelector((state) => state.posts.numberOfElements);
 
   useEffect(() => {
-    dispatch(currentPosts(id));
-  }, [dispatch, id]);
+    dispatch(currentPosts({id, page}));
+  }, [dispatch, id, page]);
 
-  const { userItems, error, isFetching } = useSelector((state) => state.posts);
+  const scrollHandler = useCallback(
+    (e) => {
+      if (
+        e.target.documentElement.scrollHeight -
+          (e.target.documentElement.scrollTop + window.innerHeight) <
+          300 &&
+          userItems?.length < numberOfElements &&
+        !isFetching
+      ) {
+        setPage((prevState) => prevState + 1);
+      }
+    },
+    [userItems, isFetching, page]
+  );
 
-  const {
-    totalPages,
-    currentPage,
-    setCurrentPage,
-    pageItems: postsPageItems,
-  } = usePaging(userItems, ITEMS_PER_PAGE);
-
-  const onChangePage = (e, newPage) => {
-    setCurrentPage(newPage);
-  };
+  useEffect(() => {
+    document.addEventListener("scroll", scrollHandler);
+    return function () {
+      document.removeEventListener("scroll", scrollHandler);
+    };
+  }, [scrollHandler]);
 
   if (error) {
-    let message;
-    if (process.env.NODE_ENV !== 'production') message = error.message;
-    else message = 'Loading error';
-    return <Alert variant="danger">{message}</Alert>;
+    return <Alert variant="danger">{ERRORS.error}</Alert>;
   }
 
   return (
     <>
       <div>
         {isFetching && <Spinner animation="border" />}
-        {postsPageItems?.map((post) => (
+        {userItems?.map((post) => (
           <Post post={post} key={post.id} />
         ))}
       </div>
-      <Pagination
-        count={totalPages}
-        page={currentPage}
-        onChange={onChangePage}
-      />
     </>
   );
 });

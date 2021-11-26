@@ -12,6 +12,8 @@ export const SEND_POST_REQUESTED = 'POST/SEND_POST_REQUESTED';
 export const SEND_POST_RECEIVED = 'POST/SEND_POST_RECEIVED';
 export const SEND_POST_REJECTED = 'POST/SEND_POST_REJECTED';
 
+export const CLEAN_POSTS = 'POST/CLEAN_POSTS';
+
 export const fetchPosts = createAction(FETCH_POSTS_REQUESTED);
 export const fetchedPostsSuccess = createAction(FETCH_POSTS_RECEIVED);
 export const fetchedPostsFail = createAction(FETCH_POSTS_REJECTED);
@@ -23,3 +25,5 @@ export const currentPostsFail = createAction(USER_POSTS_REJECTED);
 export const sendPost = createAction(SEND_POST_REQUESTED);
 export const sendPostSuccess = createAction(SEND_POST_RECEIVED);
 export const sendPostFail = createAction(SEND_POST_REJECTED);
+
+export const cleanPosts = createAction(CLEAN_POSTS);

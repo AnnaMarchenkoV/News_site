@@ -14,12 +14,12 @@ import {
 
 import Api from '../../api';
 
-export function fetchPosts() {
-  return Api.get('news?page=1&perPage=5');
+export function fetchPosts(payload) {
+  return Api.get(`news?page=${payload}&perPage=7`);
 }
 
 export function fetchUserPosts(payload) {
-  return Api.get(`news/user/${payload}/?page=1&perPage=1`);
+  return Api.get(`news/user/${payload.id}/?page=${payload.page}&perPage=5`);
 }
 
 export function sendAvatar(payload) {
@@ -38,23 +38,23 @@ export function sendPost(payload) {
   return Api.post('news', payload);
 }
 
-function* workerRequestPosts() {
+function* workerRequestPosts(action) {
   try {
-    const response = yield call(fetchPosts);
-    const payload = response.data.data.content;
-    yield put(fetchedPostsSuccess(payload));
+    const response = yield call(fetchPosts, action.payload);
+    const payload = response.data.data;
+    yield put(fetchedPostsSuccess({ data: payload, page: action.payload }));
   } catch (error) {
-    yield put(fetchedPostsFail(error));
+    yield put(fetchedPostsFail(error.response.data.statusCode));
   }
 }
 
 function* workerRequestUserPosts(action) {
   try {
     const response = yield call(fetchUserPosts, action.payload);
-    const payload = response.data.data.content;
-    yield put(currentPostsSuccess(payload));
+    const payload = response.data.data;
+    yield put(currentPostsSuccess({ data: payload, page: action.payload.page }));
   } catch (error) {
-    yield put(currentPostsFail(error));
+    yield put(currentPostsFail(error.response.data.statusCode));
   }
 }
 
@@ -81,3 +81,4 @@ export function* watcherRequestUserPosts() {
 export function* watcherRequestSendPost() {
   yield takeEvery(SEND_POST_REQUESTED, workerRequestSendPost);
 }
+

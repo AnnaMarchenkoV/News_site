@@ -1,39 +1,61 @@
-import React, {
-  useEffect, memo, useCallback,
-} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useEffect, memo, useState, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
-import { Spinner } from 'react-bootstrap';
-import Alert from 'react-bootstrap/Alert';
-import Pagination from '@mui/material/Pagination';
+import { Spinner } from "react-bootstrap";
+import Alert from "react-bootstrap/Alert";
 
-import usePaging from '../../../hooks/use-pagination';
-import Post from './Post/index';
-import { fetchPosts } from '../../../store/actions/postActions';
-
-const ITEMS_PER_PAGE = 3;
+import Post from "./Post/index";
+import { fetchPosts } from "../../../store/actions/postActions";
 
 const Posts = memo(({ searchTerm }) => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchPosts());
-  }, [dispatch]);
+  const isFetching = useSelector((state) => state.posts.isFetching);
+  const numberOfElements = useSelector((state) => state.posts.numberOfElements);
+  const items = useSelector((state) => state.posts.items);
 
-  const { items, error, isFetching } = useSelector((state) => state.posts);
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    dispatch(fetchPosts(page));
+  }, [dispatch, page]);
+
+  const scrollHandler = useCallback(
+    (e) => {
+      if (
+        e.target.documentElement.scrollHeight -
+          (e.target.documentElement.scrollTop + window.innerHeight) <
+          300 &&
+        items?.length < numberOfElements &&
+        !isFetching
+      ) {
+        setPage((prevState) => prevState + 1);
+      }
+    },
+    [items, isFetching, page]
+  );
+
+  useEffect(() => {
+    document.addEventListener("scroll", scrollHandler);
+    return function () {
+      document.removeEventListener("scroll", scrollHandler);
+    };
+  }, [scrollHandler]);
 
   const checkIncludes = (item) => item?.includes(searchTerm.tempSearch);
 
-  const filteredPosts = items.filter((item) => {
+  const filteredPosts = items?.filter((item) => {
     switch (searchTerm.selectOption) {
-      case 'all':
-        return [item.description, item.title, item.username].some(checkIncludes);
+      case "all":
+        return [item.description, item.title, item.username].some(
+          checkIncludes
+        );
 
-      case 'author':
+      case "author":
         return [item.username].some(checkIncludes);
 
-      case 'tags':
+      case "tags":
         return [item.tags].some(checkIncludes);
 
       default:
@@ -41,34 +63,18 @@ const Posts = memo(({ searchTerm }) => {
     }
   });
 
-  const {
-    totalPages,
-    currentPage,
-    setCurrentPage,
-    pageItems: postsPageItems,
-  } = usePaging(filteredPosts, ITEMS_PER_PAGE);
+  <Alert variant="danger">{"Loading error"}</Alert>;
 
-  const onChangePage = (e, newPage) => {
-    setCurrentPage(newPage);
-  };
-
-    <Alert variant="danger">{'Loading error'}</Alert>;
-
-    return (
-      <>
-        <div>
-          {isFetching && <Spinner animation="border" />}
-          {postsPageItems?.map((post) => (
-            <Post post={post} key={post.id} />
-          ))}
-        </div>
-        <Pagination
-          count={totalPages}
-          page={currentPage}
-          onChange={onChangePage}
-        />
-      </>
-    );
+  return (
+    <>
+      <div>
+        {isFetching && <Spinner animation="border" />}
+        {filteredPosts?.map((post) => (
+          <Post post={post} key={post.id} />
+        ))}
+      </div>
+    </>
+  );
 });
 
 Posts.propTypes = {

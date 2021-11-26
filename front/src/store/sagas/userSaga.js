@@ -25,18 +25,6 @@ export function userLogin(payload) {
   return Api.post('auth/login', payload);
 }
 
-// export function userRegistrationAvatar(payload) {
-//   const bodyFormData = new FormData();
-//   bodyFormData.append('file', payload.avatar);
-
-//   return Api({
-//     method: 'post',
-//     url: 'file/uploadFile',
-//     data: bodyFormData,
-//     headers: { 'Content-Type': 'multipart/form-data' },
-//   });
-// }
-
 export function userRegistration(payload) {
   return Api.post('auth/register', payload);
 }
@@ -68,7 +56,7 @@ function* workerUserLogin(action) {
     addTokenToLS(userData);
     yield put(loginSuccess(userData));
   } catch (error) {
-    yield put(loginFail(error));
+    yield put(loginFail(error.response.data.statusCode));
   }
 }
 
@@ -123,9 +111,6 @@ function* workerUpdateUser(action) {
     action.payload.avatar = avatar;
   }
     const response = yield call(updateUserInfo, action.payload);
-    console.log('====================================');
-    console.log(response);
-    console.log('====================================');
     const userData = response.data.data;
     yield put(updateUserSuccess(userData));
   } catch (error) {

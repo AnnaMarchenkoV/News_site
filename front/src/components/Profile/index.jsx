@@ -22,7 +22,7 @@ const Profile = () => {
   }, [dispatch, id, userData]);
 
   if (!userData) {
-    return <Alert variant="danger">Войдите или зарегистрируйтесь</Alert>;
+    return <Alert variant="danger">Log in or register</Alert>;
   }
 
   return (

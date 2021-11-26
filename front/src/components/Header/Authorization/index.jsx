@@ -7,6 +7,7 @@ import {
   userLogin,
   userLogOut,
 } from '../../../store/actions/userActions';
+import { ERRORS } from '../../../store/helpers/errors';
 
 const Authorization = () => {
   const dispatch = useDispatch();
@@ -55,8 +56,7 @@ const Authorization = () => {
           Log In
         </Button>
       </Form>
-
-      {error && <Alert variant="danger">{error.message}</Alert>}
+      {error && <Alert variant="danger">{ERRORS[error]|| "Log in or register"}</Alert>}
     </div>
   );
 };
