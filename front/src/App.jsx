@@ -1,31 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
 import Content from './components/Content/index';
 import Header from './components/Header/index';
-import Nav from './components/Nav/index';
 import Profile from './components/Profile/index';
-import { userAuthenticate } from './store/actions/userActions';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import classes from './App.modules.css';
-
 function App() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(userAuthenticate());
-  }, [dispatch]);
-
   return (
     <Router>
-      <div className={classes.app_wrapper}>
+      <div>
         <Header />
-        <Nav />
-        <Route path="/content" component={Content} />
         <Route path="/profile/:id" component={Profile} />
+        <Route exact path="/" component={Content} />
       </div>
     </Router>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { takeEvery, put, call } from 'redux-saga/effects';
 
 import {
@@ -6,36 +7,49 @@ import {
   currentPostsFail,
   sendPostSuccess,
   sendPostFail,
+  deletePostFail,
+  deletePostSuccess,
+  updatePostFail,
   FETCH_POSTS_REQUESTED,
   fetchedPostsSuccess,
   USER_POSTS_REQUESTED,
   SEND_POST_REQUESTED,
+  DELETE_POST_REQUESTED,
+  UPDATE_POST_REQUESTED,
 } from '../actions/postActions';
 
 import Api from '../../api';
 
-export function fetchPosts(payload) {
+function fetchPosts(payload) {
   return Api.get(`news?page=${payload}&perPage=7`);
 }
 
-export function fetchUserPosts(payload) {
+function fetchUserPosts(payload) {
   return Api.get(`news/user/${payload.id}/?page=${payload.page}&perPage=5`);
 }
 
-export function sendAvatar(payload) {
+function deleteUserPost(payload) {
+  return Api.delete(`news/${payload}`);
+}
+
+function sendImage(payload) {
   const bodyFormData = new FormData();
   bodyFormData.append('file', payload.image);
 
   return Api({
-    method: 'post',
+    method: 'POST',
     url: 'file/uploadFile',
     data: bodyFormData,
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 }
 
-export function sendPost(payload) {
+function sendPost(payload) {
   return Api.post('news', payload);
+}
+
+function updatePost(payload) {
+  return Api.put(`news/${payload.postId}`, payload.post);
 }
 
 function* workerRequestPosts(action) {
@@ -60,13 +74,37 @@ function* workerRequestUserPosts(action) {
 
 function* workerRequestSendPost(action) {
   try {
-    const responseImage = yield call(sendAvatar, action.payload);
+    const responseImage = yield call(sendImage, action.payload);
     const image = responseImage.data.data;
     action.payload.image = image;
     yield call(sendPost, action.payload);
-    yield put(sendPostSuccess());
+    yield put(sendPostSuccess(action.payload));
   } catch (error) {
-    yield put(sendPostFail(error));
+    yield put(sendPostFail(error.response.data.statusCode));
+  }
+}
+
+function* workerRequestDeletePost(action) {
+  try {
+    yield call(deleteUserPost, action.payload);
+    yield window.location.reload();
+    yield put(deletePostSuccess());
+  } catch (error) {
+    yield put(deletePostFail(error.response.data.statusCode));
+  }
+}
+
+function* workerRequestUpdatePost(action) {
+  try {
+    if (action.payload.post.image.name) {
+      const responseImage = yield call(sendImage, action.payload);
+      const image = responseImage.data.data;
+      action.payload.post.image = image;
+    }
+    yield call(updatePost, action.payload);
+    yield window.location.reload();
+  } catch (error) {
+    yield put(updatePostFail(error.response.data.statusCode));
   }
 }
 
@@ -82,3 +120,10 @@ export function* watcherRequestSendPost() {
   yield takeEvery(SEND_POST_REQUESTED, workerRequestSendPost);
 }
 
+export function* watcherRequestDeletePost() {
+  yield takeEvery(DELETE_POST_REQUESTED, workerRequestDeletePost);
+}
+
+export function* watcherRequestUpdatePost() {
+  yield takeEvery(UPDATE_POST_REQUESTED, workerRequestUpdatePost);
+}

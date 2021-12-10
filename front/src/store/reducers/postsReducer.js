@@ -8,7 +8,10 @@ import {
   SEND_POST_REQUESTED,
   SEND_POST_RECEIVED,
   SEND_POST_REJECTED,
-  CLEAN_POSTS,
+  DELETE_POST_REJECTED,
+  DELETE_POST_RECEIVED,
+  DELETE_POST_REQUESTED,
+  UPDATE_POST_REJECTED,
 } from '../actions/postActions';
 
 const initialState = {
@@ -24,28 +27,46 @@ export default function postsReducer(state = initialState, action) {
     case FETCH_POSTS_REQUESTED:
     case USER_POSTS_REQUESTED:
     case SEND_POST_REQUESTED:
+    case DELETE_POST_REQUESTED:
       return { ...state, isFetching: true, error: null };
 
     case FETCH_POSTS_RECEIVED:
-      return { ...state, items: action.payload.page === 1 ? action.payload.data.content : [...state.items, ...action.payload.data.content], numberOfElements: action.payload.data.numberOfElements, isFetching: false };
+      return {
+        ...state,
+        items: action.payload.page === 1
+          ? action.payload.data.content : [...state.items, ...action.payload.data.content],
+        numberOfElements: action.payload.data.numberOfElements,
+        isFetching: false,
+      };
 
     case FETCH_POSTS_REJECTED:
     case USER_POSTS_REJECTED:
     case SEND_POST_REJECTED:
+    case DELETE_POST_REJECTED:
+    case UPDATE_POST_REJECTED:
       return {
         ...state, error: action.payload, isFetching: false,
       };
 
     case USER_POSTS_RECEIVED:
       return {
-        ...state, userItems: action.payload.page === 1 ? action.payload.data.content : [...state.userItems, ...action.payload.data.content], numberOfElements: action.payload.data.numberOfElements, error: null, isFetching: false,
+        ...state,
+        userItems: action.payload.page === 1
+          ? action.payload.data.content : [...state.userItems, ...action.payload.data.content],
+        numberOfElements: action.payload.data.numberOfElements,
+        error: null,
+        isFetching: false,
       };
 
     case SEND_POST_RECEIVED:
-      return { ...state, isFetching: false, error: null };
+      return {
+        ...state, userItems: [action.payload, ...state.userItems], isFetching: false, error: null,
+      };
 
-    case CLEAN_POSTS:
-      return { ...state, isFetching: false, error: null, items: [], userItems: [] };
+    case DELETE_POST_RECEIVED:
+      return {
+        ...state, isFetching: false, error: null,
+      };
 
     default: return state;
   }

@@ -1,0 +1,22 @@
+.posts {
+    margin: 25px auto;
+    max-width: 500px !important;
+    max-height: 500px;
+}
+
+.image {
+    height: 328px;
+}
+
+.button {
+    color: #fff;
+    background-color: #41bb7e !important;
+    border-color: #41bb7e !important;
+    float: right;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    float: right;
+}

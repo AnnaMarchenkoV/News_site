@@ -14,6 +14,9 @@ import {
   USER_UPDATE_REQUESTED,
   USER_UPDATE_RECEIVED,
   USER_UPDATE_REJECTED,
+  USER_DELETE_REQUESTED,
+  USER_DELETE_REJECTED,
+  USER_DELETE_RECEIVED,
 } from '../actions/userActions';
 
 import { getTokenFromLS } from '../helpers/localStorageHelpers';
@@ -31,6 +34,7 @@ export default function userReducer(state = initialState, action) {
     case USER_REGISTRATION:
     case USER_GET_REQUESTED:
     case USER_UPDATE_REQUESTED:
+    case USER_DELETE_REQUESTED:
       return { ...state, isFetching: true, error: null };
 
     case USER_RECEIVED:
@@ -44,6 +48,7 @@ export default function userReducer(state = initialState, action) {
     case USER_LOGOUT_REJECTED:
     case USER_GET_REJECTED:
     case USER_UPDATE_REJECTED:
+    case USER_DELETE_REJECTED:
       return {
         ...state,
         isFetching: false,
@@ -62,6 +67,7 @@ export default function userReducer(state = initialState, action) {
       };
 
     case USER_LOGOUT_RECEIVED:
+    case USER_DELETE_RECEIVED:
       return {
         ...state,
         isFetching: false,

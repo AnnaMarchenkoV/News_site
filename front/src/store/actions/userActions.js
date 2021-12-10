@@ -22,6 +22,10 @@ export const USER_UPDATE_REQUESTED = 'USER/USER_UPDATE_REQUESTED';
 export const USER_UPDATE_RECEIVED = 'USER/USER_UPDATE_RECEIVED';
 export const USER_UPDATE_REJECTED = 'USER/USER_UPDATE_REJECTED';
 
+export const USER_DELETE_REQUESTED = 'USER/USER_DELETE_REQUESTED';
+export const USER_DELETE_RECEIVED = 'USER/USER_UPDATE_RECEIVED';
+export const USER_DELETE_REJECTED = 'USER/USER_DELETE_REJECTED';
+
 export const userLogin = createAction(USER_REQUESTED);
 export const loginSuccess = createAction(USER_RECEIVED);
 export const loginFail = createAction(USER_REJECTED);
@@ -43,3 +47,7 @@ export const getUserFail = createAction(USER_GET_REJECTED);
 export const updateUser = createAction(USER_UPDATE_REQUESTED);
 export const updateUserSuccess = createAction(USER_UPDATE_RECEIVED);
 export const updateUserFail = createAction(USER_UPDATE_REJECTED);
+
+export const deleteUser = createAction(USER_DELETE_REQUESTED);
+export const deleteUserSuccess = createAction(USER_DELETE_RECEIVED);
+export const deleteUserFail = createAction(USER_DELETE_REJECTED);

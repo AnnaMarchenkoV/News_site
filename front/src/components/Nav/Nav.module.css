@@ -1,21 +1,19 @@
 .navigation {
-    grid-area: nav;
-    background-color: blue;
+    margin: 10px 0 0 20px;
   }
 
 .navigation__item:hover {
-    color: rgb(37, 23, 20);
+    color: #9ebeae;
 }
 
 .navigation__item.active {
-    color: rgb(245, 49, 0);
+    color: #41bb7e;
 }
 
 .navigation__item {
-    color: aliceblue;
+    color:  white;
     margin: 10px 0 20px 20px;
     text-decoration: none; 
     font: 600 24px Arial, Helvetica, sans-serif;
-    display: block;
 }
 

@@ -2,17 +2,18 @@ import axios from 'axios';
 
 import { getTokenFromLS } from '../store/helpers/localStorageHelpers';
 
-const UNAUTHORIZED_STATUS = 401;
+const urlParams = new URLSearchParams(window.location.search);
+const myParam = urlParams.get('baseURL');
 
 const Api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: myParam || process.env.REACT_APP_API_URL,
 });
 
 Api.interceptors.request.use(
   (config) => {
     const customConfig = config;
     const userData = getTokenFromLS();
-    const token = userData?.token
+    const token = userData?.token;
     if (userData) {
       customConfig.headers.Authorization = token;
     }

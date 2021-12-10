@@ -22,15 +22,15 @@ const Profile = () => {
   }, [dispatch, id, userData]);
 
   if (!userData) {
-    return <Alert variant="danger">Log in or register</Alert>;
+    return <Alert id="15b069a0-fed0-4a57-a91c-2accb6b8c92a" className={classes.alert} variant="warning">Log in or register</Alert>;
   }
 
   return (
-    <div>
-      <div className={classes.profile}>User info</div>
+    <div className={classes.profile}>
+      <div id="fdc1bf8a-4c91-436d-a44a-4cba2294ee18" className={classes.profile__posts}>User info</div>
       <div>
         <ProfileInfo />
-        <div className={classes.profile}>User posts</div>
+        <div className={classes.profile__posts}>User posts</div>
         {currentUser?.id === userData?.id && <NewPost />}
         <UserPosts />
       </div>

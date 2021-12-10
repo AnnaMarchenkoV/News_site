@@ -12,5 +12,10 @@
 }
 
 .search__value {
-  width: 550px !important;
+  width: 100% !important;
+}
+
+.search__button {
+  background-color: #41bb7e !important;
+  border-color: #41bb7e !important;
 }

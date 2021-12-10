@@ -1,4 +1,12 @@
 .profile{
     font-size: 24px;
+}
+
+.profile__posts {
     text-align: center;
+    font-size: 34px;
+}
+
+.alert {
+    width: 50%;
 }
