@@ -21,14 +21,15 @@ const Posts = memo(({ searchTerm }) => {
 
   useEffect(() => {
     dispatch(fetchPosts(page));
-  }, [dispatch, page, items?.length]);
+  }, [dispatch, page]);
 
   const scrollHandler = useCallback(
     (e) => {
+      const scrolledHeight = e.target.documentElement.scrollTop + window.innerHeight;
+      const distanceToEnd = e.target.documentElement.scrollHeight - scrolledHeight;
+
       if (
-        e.target.documentElement.scrollHeight
-          - (e.target.documentElement.scrollTop + window.innerHeight)
-          < 300
+        distanceToEnd < 300
         && items?.length < numberOfElements
         && !isFetching
       ) {
@@ -40,9 +41,7 @@ const Posts = memo(({ searchTerm }) => {
 
   useEffect(() => {
     document.addEventListener('scroll', scrollHandler);
-    return function () {
-      document.removeEventListener('scroll', scrollHandler);
-    };
+    return () => document.removeEventListener('scroll', scrollHandler);
   }, [scrollHandler]);
 
   const checkIncludes = (item) => item?.toUpperCase().includes(searchTerm.tempSearch.toUpperCase());
