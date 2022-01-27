@@ -12,7 +12,8 @@ const SearchForm = ({ onSubmitSearch }) => {
 
     const data = new FormData(event.target);
     const selectOption = data.get('select');
-    const tempSearch = data.get('search');
+    const searchValue = data.get('search');
+    const tempSearch = (searchValue[0] === '#' && selectOption === 'tags') ? searchValue.substring(1) : searchValue;
     onSubmitSearch({ tempSearch, selectOption });
   };
   return (
