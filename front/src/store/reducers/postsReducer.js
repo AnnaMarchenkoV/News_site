@@ -12,6 +12,7 @@ import {
   DELETE_POST_RECEIVED,
   DELETE_POST_REQUESTED,
   UPDATE_POST_REJECTED,
+  UPDATE_POST_RECEIVED,
 } from '../actions/postActions';
 
 const initialState = {
@@ -64,8 +65,9 @@ export default function postsReducer(state = initialState, action) {
       };
 
     case DELETE_POST_RECEIVED:
+    case UPDATE_POST_RECEIVED:
       return {
-        ...state, isFetching: false, error: null,
+        ...state, isFetching: false, error: null, userItems: [], items: [],
       };
 
     default: return state;

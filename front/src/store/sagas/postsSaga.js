@@ -10,6 +10,7 @@ import {
   deletePostFail,
   deletePostSuccess,
   updatePostFail,
+  updatePostSuccess,
   FETCH_POSTS_REQUESTED,
   fetchedPostsSuccess,
   USER_POSTS_REQUESTED,
@@ -34,7 +35,7 @@ function deleteUserPost(payload) {
 
 function sendImage(payload) {
   const bodyFormData = new FormData();
-  bodyFormData.append('file', payload.image);
+  bodyFormData.append('file', payload.post?.image || payload.image);
 
   return Api({
     method: 'POST',
@@ -87,7 +88,6 @@ function* workerRequestSendPost(action) {
 function* workerRequestDeletePost(action) {
   try {
     yield call(deleteUserPost, action.payload);
-    yield window.location.reload();
     yield put(deletePostSuccess());
   } catch (error) {
     yield put(deletePostFail(error.response.data.statusCode));
@@ -102,7 +102,7 @@ function* workerRequestUpdatePost(action) {
       action.payload.post.image = image;
     }
     yield call(updatePost, action.payload);
-    yield window.location.reload();
+    yield put(updatePostSuccess());
   } catch (error) {
     yield put(updatePostFail(error.response.data.statusCode));
   }

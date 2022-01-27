@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 import { Form, Button, Modal } from 'react-bootstrap';
 
@@ -33,10 +33,11 @@ const UpdateProfile = () => {
     handleClose();
   };
 
-  const deleteUserProfile = () => {
+  const deleteUserProfile = (history) => {
     const answer = window.confirm('Delete profile?');
     if (answer) {
       dispatch(deleteUser());
+      history.push('/');
     }
   };
 
@@ -45,14 +46,18 @@ const UpdateProfile = () => {
       <Button id="c6c211f7-5712-44d2-a5d5-15460df9f0b4" variant="primary" onClick={handleShow} className={classes.button}>
         Update
       </Button>
-      <NavLink
-        className={classes.delete_button}
-        to="/"
-        activeClassName={classes.active}
-        onClick={deleteUserProfile}
-      >
-        Delete profile
-      </NavLink>
+
+      <Route render={({ history }) => (
+        <button
+          className={classes.delete_button}
+          type="button"
+          onClick={() => { deleteUserProfile(history); }}
+        >
+          Delete profile
+        </button>
+      )}
+      />
+
       <Modal id="d9d74d54-8599-43dc-8e3e-f6f43d10ac76" show={isModalShown} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Update Profile</Modal.Title>
@@ -64,7 +69,7 @@ const UpdateProfile = () => {
             <Form.Label>New E-mail</Form.Label>
             <Form.Control
               id="626fa43b-bc2f-4780-8218-40f5545786e7"
-              type="email"
+              type="text"
               placeholder="Enter new e-mail"
               name="email"
             />

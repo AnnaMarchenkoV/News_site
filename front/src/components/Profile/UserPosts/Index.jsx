@@ -24,7 +24,7 @@ const UserPosts = memo(() => {
 
   useEffect(() => {
     dispatch(currentPosts({ id, page }));
-  }, [dispatch, id, page]);
+  }, [dispatch, id, page, userItems.length]);
 
   const scrollHandler = useCallback(
     (e) => {
@@ -48,7 +48,7 @@ const UserPosts = memo(() => {
     };
   }, [scrollHandler]);
 
-  if (error) {
+  if ((error || ERRORS[error] === 'unknown')) {
     return <Alert id="aa8eed99-69aa-427e-8a68-c01c88c3671b" variant="danger">{ERRORS[error]}</Alert>;
   }
 

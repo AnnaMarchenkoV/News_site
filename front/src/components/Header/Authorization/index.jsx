@@ -51,7 +51,7 @@ const Authorization = () => {
       <Form onSubmit={onSubmit} className={classes.login}>
         <Form.Group controlId="formBasicEmail">
           <Form.Label className={classes.label}>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" name="email" />
+          <Form.Control type="text" placeholder="Enter email" name="email" />
         </Form.Group>
 
         <Form.Group controlId="formBasicPassword">
@@ -67,7 +67,7 @@ const Authorization = () => {
         </Button>
         <Registration />
       </Form>
-      {error && <Alert id="474c0109-0e53-4336-8677-c7c128b99261" variant="danger" className={classes.danger}>{ERRORS[error]}</Alert>}
+      {(error || ERRORS[error] === 'unknown') && <Alert id="474c0109-0e53-4336-8677-c7c128b99261" variant="danger" className={classes.danger}>{ERRORS[error]}</Alert>}
     </div>
   );
 };

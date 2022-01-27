@@ -21,7 +21,7 @@ const Posts = memo(({ searchTerm }) => {
 
   useEffect(() => {
     dispatch(fetchPosts(page));
-  }, [dispatch, page]);
+  }, [dispatch, page, items?.length]);
 
   const scrollHandler = useCallback(
     (e) => {

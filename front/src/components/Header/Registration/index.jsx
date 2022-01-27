@@ -57,7 +57,7 @@ const Registration = () => {
             <Form.Label>Email address</Form.Label>
             <Form.Control
               id="76ba5e32-d012-4ee6-aad4-3cc7a0b4fd63"
-              type="email"
+              type="text"
               placeholder="Enter email"
               name="emailReg"
             />

@@ -120,6 +120,10 @@ function* workerUpdateUser(action) {
     }
     const response = yield call(updateUserInfo, action.payload);
     const userData = response.data.data;
+    const token = yield (getTokenFromLS()).token;
+    userData.token = token;
+    yield removeTokenFromLS('userData');
+    yield addTokenToLS(userData);
     yield put(updateUserSuccess(userData));
   } catch (error) {
     yield put(updateUserFail(error.response.data.statusCode));
