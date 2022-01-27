@@ -1,14 +1,14 @@
 .button {
     color: #fff;
-    background-color: #41bb7e !important;
-    border-color: #41bb7e !important;
+    background-color: #009C4F !important;
+    border-color: #009C4F !important;
     margin: 10px;
 }
 
 .delete_button {
     color: #fff !important;
-    background-color: #41bb7e !important;
-    border-color: #41bb7e !important;
+    background-color: #009C4F !important;
+    border-color: #009C4F !important;
     margin: 10px;
     display: inline-block;
     font-weight: 400;
