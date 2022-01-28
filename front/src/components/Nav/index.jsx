@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import Logo from '../../accets/duniceLogo.svg';
 
 import classes from './Nav.module.css';
 
@@ -15,6 +16,7 @@ const Nav = () => {
 
   return (
     <div className={classes.navigation}>
+      <img src={Logo} alt="Dunice Logo" />
       {menuItems?.map(({ title, path }) => (
         <NavLink
           id="fe39a96d-f68e-435d-9034-1df5ec3c2504"

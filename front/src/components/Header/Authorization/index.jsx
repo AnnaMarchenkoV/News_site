@@ -34,15 +34,17 @@ const Authorization = () => {
 
   if (userData) {
     return (
-      <NavLink
-        id="ac7a5588-95ca-4c3f-9602-b7300eea0b8a"
-        className={classes.signout_button}
-        to="/"
-        activeClassName={classes.active}
-        onClick={signOut}
-      >
-        Sign Out
-      </NavLink>
+      <div className={classes.signout_button_container}>
+        <NavLink
+          id="ac7a5588-95ca-4c3f-9602-b7300eea0b8a"
+          className={classes.signout_button}
+          to="/"
+          activeClassName={classes.active}
+          onClick={signOut}
+        >
+          Sign Out
+        </NavLink>
+      </div>
     );
   }
 
@@ -50,12 +52,10 @@ const Authorization = () => {
     <div className={classes.form}>
       <Form onSubmit={onSubmit} className={classes.login}>
         <Form.Group controlId="formBasicEmail">
-          <Form.Label className={classes.label}>Email address</Form.Label>
           <Form.Control type="text" placeholder="Enter email" name="email" />
         </Form.Group>
 
         <Form.Group controlId="formBasicPassword">
-          <Form.Label className={classes.label}>Password</Form.Label>
           <Form.Control
             type="password"
             placeholder="Password"

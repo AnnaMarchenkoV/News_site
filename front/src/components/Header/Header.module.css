@@ -1,9 +1,10 @@
 .header {
+  display: flex;
   justify-content: space-between;
+  align-items: center;
   grid-area: header;
   padding: 10px;
-  background-color: black;
-  margin-bottom: 20px;
+  background-color: #111F26;
   }
 
 .header__img {

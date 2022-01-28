@@ -4,16 +4,20 @@
 
 .button {
     color: #fff;
-    background-color: #41bb7e !important;
-    border-color: #41bb7e !important;
+    background-color: #009C4F !important;
+    border-color: #009C4F !important;
     height: 40px;
     margin-left: 5px;
 }
-
+.signout_button_container {
+    display: flex;
+    width: 30%;
+    justify-content: flex-end;
+}
 .signout_button {
     color: #fff !important;
-    background-color: #41bb7e !important;
-    border-color: #41bb7e !important;
+    background-color: #009C4F !important;
+    border-color: #009C4F !important;
     margin: 10px;
     display: inline-block;
     font-weight: 400;
@@ -26,16 +30,10 @@
     padding: 0.375rem 0.75rem;
     font-size: 1rem;
     border-radius: 0.25rem;
-    top: 5%;
-    right: 1%;
-    position: absolute;
 }
 
 .form {
     float: right;
-    position: absolute;
-    right: 1%;
-    top: 1%;
 }
 
 .danger {
@@ -46,12 +44,9 @@
 
 .button__reg {
     color: #fff;
-    background-color: #41bb7e !important;
-    border-color: #41bb7e !important;
+    background-color: #009C4F !important;
+    border-color: #009C4F !important;
     float: right;
-    top: 5%;
-    right: 1%;
-    position: absolute;
 }
 .login {
     display: flex;
