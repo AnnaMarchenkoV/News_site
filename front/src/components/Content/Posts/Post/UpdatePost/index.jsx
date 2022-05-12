@@ -12,9 +12,9 @@ import classes from './UpdatePost.module.css';
 const UpdatePost = ({ post }) => {
   const dispatch = useDispatch();
   const [isModalShown, setShownModal] = useState(false);
-  const [titlePost, setTitlePost] = useState(post.title);
+  const [titlePost, setTitlePost] = useState(post?.title);
   const [file, setFile] = useState();
-  const [descriptionPost, setDescriptionPost] = useState(post.description);
+  const [descriptionPost, setDescriptionPost] = useState(post?.description);
   const tagsArray = post?.tags?.map((tag) => tag?.title);
   const tagsString = tagsArray?.join(' ');
   const [tagsPost, setTagsPost] = useState(tagsString);
@@ -40,8 +40,8 @@ const UpdatePost = ({ post }) => {
   };
 
   return (
-    <div className={classes.buttons}>
-      <Button variant="primary" onClick={handleShow} className="mt-3" className={classes.button}>
+    <div data-testid="change" className={classes.buttons}>
+      <Button variant="primary" onClick={handleShow} className={classes.button}>
         Update
       </Button>
 

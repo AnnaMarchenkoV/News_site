@@ -1,18 +1,15 @@
 /* eslint-disable react/jsx-no-duplicate-props */
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button } from 'react-bootstrap';
-import Alert from 'react-bootstrap/Alert';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Form, Button } from "react-bootstrap";
+import Alert from "react-bootstrap/Alert";
+import { NavLink } from "react-router-dom";
 
-import {
-  userLogin,
-  userLogOut,
-} from '../../../store/actions/userActions';
-import ERRORS from '../../../store/helpers/errors';
+import { userLogin, userLogOut } from "../../../store/actions/userActions";
+import ERRORS from "../../../store/helpers/errors";
 
-import classes from './Authorization.module.css';
-import Registration from '../Registration';
+import classes from "./Authorization.module.css";
+import Registration from "../Registration";
 
 const Authorization = () => {
   const { error, userData } = useSelector((state) => state.user);
@@ -22,8 +19,8 @@ const Authorization = () => {
     event.preventDefault();
     const dataLogIn = new FormData(event.target);
     const payload = {
-      email: dataLogIn.get('email'),
-      password: dataLogIn.get('password'),
+      email: dataLogIn.get("email"),
+      password: dataLogIn.get("password"),
     };
     dispatch(userLogin(payload));
   };
@@ -47,7 +44,7 @@ const Authorization = () => {
   }
 
   return (
-    <div className={classes.form}>
+    <div data-testid="authorization" className={classes.form}>
       <Form onSubmit={onSubmit} className={classes.login}>
         <Form.Group controlId="formBasicEmail">
           <Form.Label className={classes.label}>Email address</Form.Label>
@@ -62,12 +59,27 @@ const Authorization = () => {
             name="password"
           />
         </Form.Group>
-        <Button id="5ab921e1-2311-4bdc-a125-fe5da8a481e4" className="mb-3" variant="primary" type="submit" className={classes.button}>
+        <Button
+          id="5ab921e1-2311-4bdc-a125-fe5da8a481e4"
+          className="mb-3"
+          variant="primary"
+          type="submit"
+          className={classes.button}
+        >
           Log In
         </Button>
         <Registration />
       </Form>
-      {(error || ERRORS[error] === 'unknown') && <Alert id="474c0109-0e53-4336-8677-c7c128b99261" variant="danger" className={classes.danger}>{ERRORS[error]}</Alert>}
+      {(error || ERRORS[error] === "unknown") && (
+        <Alert
+          data-testid="error"
+          id="474c0109-0e53-4336-8677-c7c128b99261"
+          variant="danger"
+          className={classes.danger}
+        >
+          {ERRORS[error]}
+        </Alert>
+      )}
     </div>
   );
 };

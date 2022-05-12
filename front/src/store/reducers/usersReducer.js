@@ -21,15 +21,15 @@ import {
 
 import { getTokenFromLS } from '../helpers/localStorageHelpers';
 
-const initialState = {
+export const initialState = {
   isFetching: false,
   error: null,
   userData: getTokenFromLS(),
   currentUser: null,
 };
 
-export default function userReducer(state = initialState, action) {
-  switch (action.type) {
+export function userReducer(state = initialState, action) {
+  switch (action?.type) {
     case USER_REQUESTED:
     case USER_REGISTRATION:
     case USER_GET_REQUESTED:

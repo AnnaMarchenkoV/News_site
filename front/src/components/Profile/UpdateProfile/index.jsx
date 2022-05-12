@@ -43,7 +43,7 @@ const UpdateProfile = () => {
 
   return (
     <div>
-      <Button id="c6c211f7-5712-44d2-a5d5-15460df9f0b4" variant="primary" onClick={handleShow} className={classes.button}>
+      <Button data-testid="update-button" id="c6c211f7-5712-44d2-a5d5-15460df9f0b4" variant="primary" onClick={handleShow} className={classes.button}>
         Update
       </Button>
 
@@ -58,7 +58,7 @@ const UpdateProfile = () => {
       )}
       />
 
-      <Modal id="d9d74d54-8599-43dc-8e3e-f6f43d10ac76" show={isModalShown} onHide={handleClose}>
+      <Modal data-testid="modal" id="d9d74d54-8599-43dc-8e3e-f6f43d10ac76" show={isModalShown} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Update Profile</Modal.Title>
         </Modal.Header>

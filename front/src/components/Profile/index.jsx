@@ -26,9 +26,9 @@ const Profile = () => {
   }
 
   return (
-    <div className={classes.profile}>
+    <div data-testid="simple-menu" className={classes.profile}>
       <div id="fdc1bf8a-4c91-436d-a44a-4cba2294ee18" className={classes.profile__posts}>User info</div>
-      <div>
+      <div data-testid="sign-out"> 
         <ProfileInfo />
         <div className={classes.profile__posts}>User posts</div>
         {currentUser?.id === userData?.id && <NewPost />}
