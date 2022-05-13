@@ -1,6 +1,6 @@
 import calculatorReducers from "../store/reducers/postsReducer";
 
-describe("Reducers", () => {
+describe("calculatorReducers", () => {
   let state;
   beforeEach(() => {
     state = {

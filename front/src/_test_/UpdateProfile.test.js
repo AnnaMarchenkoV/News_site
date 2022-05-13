@@ -9,7 +9,7 @@ import UpdateProfile from "../components/Profile/UpdateProfile";
 
 jest.mock("react-redux");
 
-describe("update button test", () => {
+describe("UpdateProfile component", () => {
   test("should open update form", () => {
     useSelector.mockImplementation((cb) => cb({ user: { userData: true } }));
     const { queryByTestId } = render(
