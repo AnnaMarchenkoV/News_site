@@ -1,6 +1,6 @@
-import calculatorReducers from "../store/reducers/postsReducer";
+import postsReducers from "../store/reducers/postsReducer";
 
-describe("calculatorReducers", () => {
+describe("postsReducers", () => {
   let state;
   beforeEach(() => {
     state = {
@@ -13,7 +13,7 @@ describe("calculatorReducers", () => {
   });
 
   it("reducer for FETCH_POSTS", () => {
-    state = calculatorReducers(state, {
+    state = postsReducers(state, {
       type: "POST/FETCH_POSTS_REQUESTED",
     });
     expect(state).toEqual({
@@ -26,7 +26,7 @@ describe("calculatorReducers", () => {
   });
 
   it("reducer for FETCH_POSTS_REJECTED", () => {
-    state = calculatorReducers(state, {
+    state = postsReducers(state, {
       type: "POST/FETCH_POSTS_REJECTED",
       error: undefined,
     });
